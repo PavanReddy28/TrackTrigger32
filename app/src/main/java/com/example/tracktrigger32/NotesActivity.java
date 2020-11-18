@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class NotesActivity extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity{
 
     DrawerLayout drawerLayout;
 

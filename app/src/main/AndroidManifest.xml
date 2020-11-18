@@ -15,7 +15,6 @@
         <activity android:name=".auth.FirebaseUI"></activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NotesActivity" />
-        <activity android:name=".RegisterActivity" />
         <activity android:name=".WorkActivity" />
         <activity android:name=".HouseholdActivity" />
         <activity android:name=".MainActivity">

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class HouseholdActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
@@ -79,6 +81,12 @@ public class HouseholdActivity extends AppCompatActivity {
 
     public void ClickSettings(View view){
         redirectActivity(this, SettingsActivity.class);
+    }
+
+    public void ClickLogout(View view){
+        FirebaseAuth.getInstance().signOut();
+        redirectActivity(this, MainActivity.class);
+        finish();
     }
 
     //Navigation Functionality ends

@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyViewHolder>{
 
-    private List<ReminderActivity> allReminders;  //arraylist
+    private List<Reminder> allReminders;  //arraylist
     private TextView message,time;
 
-    public ReminderAdapter(List<ReminderActivity> allReminders) {   //context
+    public ReminderAdapter(List<Reminder> allReminders) {   //context
         this.allReminders = allReminders;
     }
 
@@ -30,7 +30,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        ReminderActivity reminders = allReminders.get(i); // myViewHolder.itemView.settag(allreminders.get(i))
+        Reminder reminders = allReminders.get(i); // myViewHolder.itemView.settag(allreminders.get(i))
         if(!reminders.getMessage().equals(""))
             message.setText(reminders.getMessage());
         else

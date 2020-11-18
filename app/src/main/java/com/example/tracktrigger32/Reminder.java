@@ -3,7 +3,7 @@ package com.example.tracktrigger32;
 import java.util.Date;
 
 //@Entity(tableName = "reminder")
-public class ReminderActivity {
+public class Reminder {
     //@PrimaryKey(autoGenerate = true)
     //@NonNull
     public int id;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrackTrigger32</string>
+    <string name="app_name">TrackTrigger</string>
     <string name="search">Search</string>
     <string name="navigation_bar">Navigation Bar</string>
     <string name="profile_pic">Profile pic (circular)</string>

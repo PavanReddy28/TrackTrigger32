@@ -131,7 +131,7 @@ public class HHScheduleFragment extends Fragment {
 
     }
 
-    public void setItemsInRecyclerView(){
+   public void setItemsInRecyclerView(){
 
         //RoomDAO dao = appDatabase.getRoomDAO();
         //temp = dao.orderThetable();

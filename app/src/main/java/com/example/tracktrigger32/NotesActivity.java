@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class NotesActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+
+public class NotesActivity extends AppCompatActivity{
 
     DrawerLayout drawerLayout;
 
@@ -79,6 +81,12 @@ public class NotesActivity extends AppCompatActivity {
 
     public void ClickSettings(View view){
         redirectActivity(this, SettingsActivity.class);
+    }
+
+    public void ClickLogout(View view){
+        FirebaseAuth.getInstance().signOut();
+        redirectActivity(this, MainActivity.class);
+        finish();
     }
 
     //Navigation Functionality ends

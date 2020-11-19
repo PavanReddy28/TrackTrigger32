@@ -1,18 +1,15 @@
 package com.example.tracktrigger32;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HouseholdActivity extends AppCompatActivity {
 
@@ -23,37 +20,7 @@ public class HouseholdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_household);
         drawerLayout = findViewById(R.id.drawer_layout);
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HHHomeFragment()).commit();
-
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()){
-                        case R.id.nav_home:
-                            selectedFragment = new HHHomeFragment();
-                            break;
-                        case R.id.nav_schedule:
-                            selectedFragment = new HHScheduleFragment();
-                            break;
-                        case R.id.nav_inventory:
-                            selectedFragment = new HHInventoryFragment();
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-
-                return true;
-                }
-            };
-
 
     @Override
     protected void onPause() {
@@ -114,6 +81,12 @@ public class HouseholdActivity extends AppCompatActivity {
 
     public void ClickSettings(View view){
         redirectActivity(this, SettingsActivity.class);
+    }
+
+    public void ClickLogout(View view){
+        FirebaseAuth.getInstance().signOut();
+        redirectActivity(this, MainActivity.class);
+        finish();
     }
 
     //Navigation Functionality ends

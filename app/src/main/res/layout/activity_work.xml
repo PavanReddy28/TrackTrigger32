@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
     tools:context=".WorkActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,8 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="?android:attr/windowBackground"
-            app:itemIconTint="@color/black"
-            app:itemTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,14 +47,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <RelativeLayout
-        android:layout_width="300dp"
+    <com.shreyaspatil.material.navigationview.MaterialNavigationView
+        android:id="@+id/navigation_view"
         android:layout_height="match_parent"
-        android:layout_gravity="start">
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_drawer_header"
+        app:itemStyle="rounded_right"
+        app:menu="@menu/nav_drawer"/>
 
-        <include layout="@layout/main_nav_drawer"/>
-
-
-    </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

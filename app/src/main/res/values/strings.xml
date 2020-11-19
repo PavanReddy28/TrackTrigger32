@@ -6,7 +6,9 @@
     <string name="home">Home</string>
     <string name="schedule">Schedule</string>
     <string name="inventory">Inventory</string>
-    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">384353812808188</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb384353812808188</string>
+    <string name="household">Household</string>
+    <string name="work">Work</string>
+    <string name="notes">Notes</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
 </resources>

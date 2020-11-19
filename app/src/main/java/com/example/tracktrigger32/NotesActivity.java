@@ -1,5 +1,6 @@
 package com.example.tracktrigger32;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -7,11 +8,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class NotesActivity extends AppCompatActivity{
+public class NotesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
 
@@ -20,13 +23,11 @@ public class NotesActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.drawer_notes);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        closeDrawer(drawerLayout);
-    }
 
     //Navigation Drawer Functionality
 
@@ -40,6 +41,12 @@ public class NotesActivity extends AppCompatActivity{
 
         //Start activity
         activity.startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        closeDrawer(drawerLayout);
     }
 
     public static void openDrawer(DrawerLayout drawerLayout) {
@@ -59,34 +66,32 @@ public class NotesActivity extends AppCompatActivity{
         openDrawer(drawerLayout);
     }
 
-    public void ClickProfile(View view){
-        closeDrawer(drawerLayout);
-    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.drawer_home:
+                break;
+            case R.id.drawer_house:
+                redirectActivity(this, HouseholdActivity.class);
+                break;
+            case R.id.drawer_work:
+                redirectActivity(this, WorkActivity.class);
+                break;
+            case R.id.drawer_notes:
+                redirectActivity(this, NotesActivity.class);
+                break;
+            case R.id.drawer_settings:
+                redirectActivity(this, SettingsActivity.class);
+                break;
+            case R.id.drawer_logout:
+                FirebaseAuth.getInstance().signOut();
+                redirectActivity(this, MainActivity.class);
+                finish();
+                break;
+        }
 
-    public void ClickHome(View view){
-        redirectActivity(this,MainActivity.class);
-    }
-
-    public void ClickHouse(View view){
-        redirectActivity(this, HouseholdActivity.class);
-    }
-
-    public void ClickWork(View view){
-        redirectActivity(this, WorkActivity.class);
-    }
-
-    public void ClickNotes(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickSettings(View view){
-        redirectActivity(this, SettingsActivity.class);
-    }
-
-    public void ClickLogout(View view){
-        FirebaseAuth.getInstance().signOut();
-        redirectActivity(this, MainActivity.class);
-        finish();
+        drawerLayout.closeDrawers();
+        return true;
     }
 
     //Navigation Functionality ends

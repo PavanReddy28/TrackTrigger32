@@ -1,5 +1,6 @@
 package com.example.tracktrigger32;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -7,11 +8,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
 
@@ -20,13 +23,11 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.drawer_settings);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        closeDrawer(drawerLayout);
-    }
 
     //Navigation Drawer Functionality
 
@@ -41,6 +42,13 @@ public class SettingsActivity extends AppCompatActivity {
         //Start activity
         activity.startActivity(intent);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        closeDrawer(drawerLayout);
+    }
+
 
     public static void openDrawer(DrawerLayout drawerLayout) {
 
@@ -58,6 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
         //open drawer
         openDrawer(drawerLayout);
     }
+
+    /*
+
+
 
     public void ClickProfile(View view){
         closeDrawer(drawerLayout);
@@ -87,6 +99,36 @@ public class SettingsActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         redirectActivity(this, MainActivity.class);
         finish();
+    }
+
+     */
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.drawer_home:
+                break;
+            case R.id.drawer_house:
+                redirectActivity(this, HouseholdActivity.class);
+                break;
+            case R.id.drawer_work:
+                redirectActivity(this, WorkActivity.class);
+                break;
+            case R.id.drawer_notes:
+                redirectActivity(this, NotesActivity.class);
+                break;
+            case R.id.drawer_settings:
+                redirectActivity(this, SettingsActivity.class);
+                break;
+            case R.id.drawer_logout:
+                FirebaseAuth.getInstance().signOut();
+                redirectActivity(this, MainActivity.class);
+                finish();
+                break;
+        }
+
+        drawerLayout.closeDrawers();
+        return true;
     }
 
     //Navigation Functionality ends

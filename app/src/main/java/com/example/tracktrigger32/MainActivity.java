@@ -130,49 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //open drawer
         openDrawer(drawerLayout);
     }
-    public void ClickHouse(View view){
-        redirectActivity(this, HouseholdActivity.class);
-    }
-/*
-    public void ClickProfile(View view){
-        closeDrawer(drawerLayout);
-    }
 
-    public void ClickHome(View view){
-        closeDrawer(drawerLayout);
-    }
-
-
-
-    public void ClickWork(View view){
-        redirectActivity(this, WorkActivity.class);
-    }
-
-    public void ClickNotes(View view){
-        redirectActivity(this, NotesActivity.class);
-    }
-
-    public void ClickSettings(View view){
-        redirectActivity(this, SettingsActivity.class);
-    }
-
-    public void ClickLogout(View view){
-        AuthUI.getInstance()
-                .signOut(MainActivity.this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        showSignInOptions();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {

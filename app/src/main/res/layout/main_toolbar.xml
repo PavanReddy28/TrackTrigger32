@@ -10,8 +10,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="47dp"
         android:layout_margin="8dp"
+        android:padding="5dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
 
@@ -25,29 +26,28 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="8dp"
-                android:src="@drawable/nav_bar"
                 android:contentDescription="@string/navigation_bar"
-                android:onClick="ClickMenu" />
+                android:onClick="ClickMenu"
+                android:padding="10dp"
+                android:src="@drawable/nav_bar" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="center_vertical"
-                android:padding="8dp"
                 android:hint="@string/search"
-                android:textSize="24sp"/>
+                android:padding="8dp"
+                android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/profilePic"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="8dp"
-                android:src="@drawable/searchbtn"
-                android:contentDescription="@string/profile_pic"/>
+                app:srcCompat="@drawable/fui_ic_anonymous_white_24dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

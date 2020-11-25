@@ -67,46 +67,12 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         openDrawer(drawerLayout);
     }
 
-    /*
-
-
-
-    public void ClickProfile(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickHome(View view){
-        redirectActivity(this, MainActivity.class);
-    }
-
-    public void ClickHouse(View view){
-        redirectActivity(this, HouseholdActivity.class);
-    }
-
-    public void ClickWork(View view){
-        redirectActivity(this, WorkActivity.class);
-    }
-
-    public void ClickNotes(View view){
-        redirectActivity(this, NotesActivity.class);
-    }
-
-    public void ClickSettings(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickLogout(View view){
-        FirebaseAuth.getInstance().signOut();
-        redirectActivity(this, MainActivity.class);
-        finish();
-    }
-
-     */
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.drawer_home:
+                redirectActivity(this, SettingsActivity.class);
                 break;
             case R.id.drawer_house:
                 redirectActivity(this, HouseholdActivity.class);
@@ -118,7 +84,6 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 redirectActivity(this, NotesActivity.class);
                 break;
             case R.id.drawer_settings:
-                redirectActivity(this, SettingsActivity.class);
                 break;
             case R.id.drawer_logout:
                 FirebaseAuth.getInstance().signOut();

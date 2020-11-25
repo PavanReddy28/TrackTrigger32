@@ -70,9 +70,9 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.drawer_home:
+                redirectActivity(this, MainActivity.class);
                 break;
             case R.id.drawer_house:
-                redirectActivity(this, HouseholdActivity.class);
                 break;
             case R.id.drawer_work:
                 redirectActivity(this, WorkActivity.class);

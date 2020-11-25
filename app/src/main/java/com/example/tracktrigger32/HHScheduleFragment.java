@@ -1,5 +1,6 @@
 package com.example.tracktrigger32;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,10 +42,12 @@ public class HHScheduleFragment extends Fragment {
     private FloatingActionButton add;
     //private Dialog dialog;
      //private AppDatabase appDatabase;
-    private RecyclerView recyclerView;
-    private ReminderAdapter adapter;
-    public List<Reminder> temp;     //can come from database, hardcode instead
+     RecyclerView recyclerView;
+     ReminderAdapter adapter;
+     RecyclerView.LayoutManager layoutManager;
+    public ArrayList<Reminder> temp;     //can come from database, hardcode instead
     private TextView empty;
+    //private LinearLayoutManager linearLayoutManager;
     final int HHSCHEDULE = 3;
     public Reminder reminders = new Reminder();
 
@@ -78,40 +82,42 @@ public class HHScheduleFragment extends Fragment {
         View v1 =  inflater.inflate(R.layout.fragment_hh_schedule,container,false);
         //appDatabase = AppDatabase.geAppdatabase(MainPage.this);
 
-        add =(FloatingActionButton) v1.findViewById(R.id.floatingButton);
-        empty = (TextView) v1.findViewById(R.id.empty);
-
+        add = v1.findViewById(R.id.floatingButton);
+        empty =  v1.findViewById(R.id.empty);
+        recyclerView =  v1.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this.getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        //setItemsInRecyclerView();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent3 = new Intent(getActivity(), com.example.tracktrigger32.AddScheduleActivity.class);
+                Intent intent3 = new Intent(getActivity(), com.example.tracktrigger32.AddSchedulesActivity.class);
                 startActivityForResult(intent3, HHSCHEDULE);
+                //startActivity(intent3);
             }
 
         });
-        recyclerView = (RecyclerView) v1.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        setItemsInRecyclerView();
-
+        //setItemsInRecyclerView();
         return v1;
     }
 
 
-    @Override
+   @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Reminder reminders = new Reminder();
+        //Reminder reminders = new Reminder();
         String dtStr;
         if (requestCode == HHSCHEDULE){
-            if(resultCode == getActivity().RESULT_OK){
+            if(resultCode == Activity.RESULT_OK){
+                assert data != null;
                 reminders.setMessage(data.getStringExtra("msg"));
                 dtStr = data.getStringExtra("dt");
                 Date remind = new Date(dtStr);
                 reminders.setRemindDate(remind);
+                temp.add(reminders);
 
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
+                /*Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
                 calendar.setTime(remind);
                 calendar.set(Calendar.SECOND,0);
                 Intent intent = new Intent(getActivity(),NotifierAlarm.class);
@@ -120,12 +126,12 @@ public class HHScheduleFragment extends Fragment {
                 intent.putExtra("id",reminders.getId());
                 PendingIntent intent1 = PendingIntent.getBroadcast(getActivity(),reminders.getId(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);*/
 
-                Toast.makeText(getActivity(),"Inserted Successfully",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"Inserted Successfully",Toast.LENGTH_SHORT).show();
                 setItemsInRecyclerView();
             }
-            if(resultCode == getActivity().RESULT_CANCELED){
+            if(resultCode == Activity.RESULT_CANCELED){
             }
         }
 
@@ -135,7 +141,7 @@ public class HHScheduleFragment extends Fragment {
 
         //RoomDAO dao = appDatabase.getRoomDAO();
         //temp = dao.orderThetable();
-        temp.add(reminders);
+
         if(temp.size()>0) {
             empty.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
@@ -144,7 +150,6 @@ public class HHScheduleFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
-
    /* public void addReminder(){    // should be in other activity....
 
         *//*dialog = new Dialog(getActivity());

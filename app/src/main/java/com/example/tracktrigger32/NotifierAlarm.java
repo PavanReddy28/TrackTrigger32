@@ -22,7 +22,7 @@ public class NotifierAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+/*
         //appDatabase = AppDatabase.geAppdatabase(context.getApplicationContext());
         //RoomDAO roomDAO = appDatabase.getRoomDAO();
         Reminder reminder = new Reminder();
@@ -61,7 +61,7 @@ public class NotifierAlarm extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(1, notification);
+        notificationManager.notify(1, notification);*/
 
     }
 

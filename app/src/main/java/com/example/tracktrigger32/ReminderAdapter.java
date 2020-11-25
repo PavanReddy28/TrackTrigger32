@@ -3,21 +3,26 @@ package com.example.tracktrigger32;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyViewHolder>{
 
-    private List<Reminder> allReminders;  //arraylist
+    private  ArrayList<Reminder> allReminders;  //arraylist
     private TextView message,time;
 
-    public ReminderAdapter(List<Reminder> allReminders) {   //context
-        this.allReminders = allReminders;
+    public ReminderAdapter( ArrayList<Reminder> list) {   //context
+        allReminders = list;
     }
+
+
 
     @NonNull
     @Override

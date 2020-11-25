@@ -6,7 +6,7 @@ import java.util.Date;
 public class Reminder {
     //@PrimaryKey(autoGenerate = true)
     //@NonNull
-    public int id;
+    //public int id;
 
     String message;
     Date remindDate;
@@ -19,9 +19,9 @@ public class Reminder {
         return remindDate;
     }
 
-    public int getId() {
+    /*public int getId() {
         return id;
-    }
+    }*/
 
     public void setMessage(String message) {
         this.message = message;
@@ -31,7 +31,7 @@ public class Reminder {
         this.remindDate = remindDate;
     }
 
-    public void setId(int id) {
+   /*public void setId(int id) {
         this.id = id;
-    }
+    }*/
 }

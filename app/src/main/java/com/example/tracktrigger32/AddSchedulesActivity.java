@@ -14,41 +14,40 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class AddScheduleActivity extends AppCompatActivity {
+public class AddSchedulesActivity extends AppCompatActivity {
 
-    TextView textView;
+    //TextView textView;
     Button select,add;
-    EditText message;
-    Calendar newCalender;
+    //EditText message;
+    //Calendar newCalender;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addschedule);
+        setContentView(R.layout.activity_add_schedules);
 
-        textView = findViewById(R.id.date);
+
+        final TextView textView = findViewById(R.id.date);
         select = findViewById(R.id.selectDate);
         add = findViewById(R.id.addButton);
-        message = findViewById(R.id.message);
-        newCalender = Calendar.getInstance();
+        final EditText message = findViewById(R.id.message);
+        final Calendar newCalender = Calendar.getInstance();
 
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(AddScheduleActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(AddSchedulesActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year, final int month, final int dayOfMonth) {
 
                         final Calendar newDate = Calendar.getInstance();
                         Calendar newTime = Calendar.getInstance();
-                        TimePickerDialog time = new TimePickerDialog(AddScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        TimePickerDialog time = new TimePickerDialog(AddSchedulesActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -58,7 +57,7 @@ public class AddScheduleActivity extends AppCompatActivity {
                                 if(newDate.getTimeInMillis()-tem.getTimeInMillis()>0)
                                     textView.setText(newDate.getTime().toString());
                                 else
-                                    Toast.makeText(AddScheduleActivity.this,"Invalid time",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddSchedulesActivity.this,"Invalid time",Toast.LENGTH_SHORT).show();
 
                             }
                         },newTime.get(Calendar.HOUR_OF_DAY),newTime.get(Calendar.MINUTE),true);
@@ -78,17 +77,17 @@ public class AddScheduleActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //RoomDAO roomDAO = appDatabase.getRoomDAO();
-                Reminder reminders = new Reminder();
-                reminders.setMessage(message.getText().toString().trim());
-                Date remind = new Date(textView.getText().toString().trim());
-                reminders.setRemindDate(remind);
+                //Reminder reminders = new Reminder();
+                //reminders.setMessage(message.getText().toString().trim());
+                //Date remind = new Date(textView.getText().toString().trim());
+                //reminders.setRemindDate(remind);
                 //roomDAO.Insert(reminders);
-                Intent intent3 = new Intent();
-                intent3.putExtra("msg", message.getText().toString().trim());
-                intent3.putExtra("dt", textView.getText().toString().trim());
-                setResult(RESULT_OK, intent3);
+                Intent intentAdd = new Intent();
+                intentAdd.putExtra("msg", message.getText().toString().trim());
+                intentAdd.putExtra("dt", textView.getText().toString().trim());
+                setResult(RESULT_OK, intentAdd);
 
-                AddScheduleActivity.this.finish();
+                AddSchedulesActivity.this.finish();
 
                 //List<Reminder> l = roomDAO.getAll();
                 //reminders = l.get(l.size()-1);

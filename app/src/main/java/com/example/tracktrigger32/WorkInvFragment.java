@@ -2,16 +2,16 @@ package com.example.tracktrigger32;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_FIRST_USER;
 import static android.app.Activity.RESULT_OK;
 
-public class HHInventoryFragment extends Fragment {
+
+public class WorkInvFragment extends Fragment {
 
     ListView lvInventory;
     ArrayList<productHHInv> list;
@@ -70,20 +71,22 @@ public class HHInventoryFragment extends Fragment {
 
 
 
-    @Nullable
+
+
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        View v2 = inflater.inflate(R.layout.fragment_hh_inventory,container,false);
+        View v3= inflater.inflate(R.layout.fragment_work_inv, container, false);
+
+        btnSub=v3.findViewById(R.id.btnSub);
+
+        ibAdd=v3.findViewById(R.id.ibAdd);
 
 
-
-        btnSub=v2.findViewById(R.id.btnSub);
-
-        ibAdd=v2.findViewById(R.id.ibAdd);
-
-
-        lvInventory=(ListView) v2.findViewById(R.id.lvInventory);
+        lvInventory=(ListView) v3.findViewById(R.id.lvInventory);
 
         list = new ArrayList<productHHInv>();
 
@@ -124,8 +127,6 @@ public class HHInventoryFragment extends Fragment {
 
 
 
-
-
-        return v2;
+        return v3;
     }
 }

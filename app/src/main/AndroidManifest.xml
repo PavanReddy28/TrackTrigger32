@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrackTrigger32">
         <activity android:name=".AddSchedulesActivity"></activity>
+        <activity android:name=".addActivityHHInv"></activity>
+        <activity android:name=".editActivityHHInv"></activity>
+        <activity android:name=".addActivityWorkInv"></activity>
+        <activity android:name=".editActivityWorkInv"></activity>
         <activity android:name=".auth.FirebaseUI" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NotesActivity" />

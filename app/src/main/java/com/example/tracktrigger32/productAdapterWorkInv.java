@@ -13,14 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.tracktrigger32.Product;
+import com.example.tracktrigger32.R;
+
 import java.util.ArrayList;
 
-public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
+public class productAdapterWorkInv extends ArrayAdapter<Product> {
     private final Context context;
-    private final ArrayList<productHHInv> values;
+    private final ArrayList<Product> values;
 
-    public productAdapterHHInv(@NonNull Context context,ArrayList<productHHInv> list) {
-        super(context, R.layout.row_layout_hh_inv,list);
+    public productAdapterWorkInv(@NonNull Context context, ArrayList<Product> list) {
+        super(context, R.layout.row_layout_work_inv,list);
         this.context = context;
         this.values = list;
     }
@@ -30,7 +33,7 @@ public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.row_layout_hh_inv,parent,false);
+        View rowView = inflater.inflate(R.layout.row_layout_work_inv,parent,false);
         TextView tvName = (TextView) rowView.findViewById(R.id.tvName);
         TextView tvId = (TextView) rowView.findViewById(R.id.tvId);
         TextView tvQuantity = (TextView) rowView.findViewById(R.id.tvQuantity);

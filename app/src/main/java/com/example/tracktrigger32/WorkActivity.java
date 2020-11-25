@@ -67,51 +67,16 @@ public class WorkActivity extends AppCompatActivity implements NavigationView.On
         openDrawer(drawerLayout);
     }
 
-    /*
-
-
-
-    public void ClickProfile(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickHome(View view){
-        redirectActivity(this, MainActivity.class);
-    }
-
-    public void ClickHouse(View view){
-        redirectActivity(this, HouseholdActivity.class);
-    }
-
-    public void ClickWork(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickNotes(View view){
-        redirectActivity(this, NotesActivity.class);
-    }
-
-    public void ClickSettings(View view){
-        redirectActivity(this, SettingsActivity.class);
-    }
-
-    public void ClickLogout(View view){
-        FirebaseAuth.getInstance().signOut();
-        redirectActivity(this, MainActivity.class);
-        finish();
-    }
-     */
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.drawer_home:
+                redirectActivity(this, MainActivity.class);
                 break;
             case R.id.drawer_house:
                 redirectActivity(this, HouseholdActivity.class);
                 break;
             case R.id.drawer_work:
-                redirectActivity(this, WorkActivity.class);
                 break;
             case R.id.drawer_notes:
                 redirectActivity(this, NotesActivity.class);

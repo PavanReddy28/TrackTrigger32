@@ -42,5 +42,7 @@ public class CreateHH extends AppCompatActivity {
                 String hhpwd = etPassword.getText().toString().trim();
             }
         });
+
+        HouseholdActivity.loggedin = true;
     }
 }

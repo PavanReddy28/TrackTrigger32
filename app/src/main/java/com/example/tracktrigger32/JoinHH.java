@@ -43,6 +43,7 @@ public class JoinHH extends AppCompatActivity {
             }
         });
 
+        HouseholdActivity.loggedin = true;
     }
 
 

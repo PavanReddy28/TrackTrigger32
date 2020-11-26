@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HouseholdActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
+    public static Boolean loggedin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,14 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HHHomeFragment()).commit();
 
+        if(!loggedin)
+        {
+            showAlertDialogButtonClicked(this);
+        }
+
     }
 
-    public void showAlertDialogButtonClicked(View view) {
+    public void showAlertDialogButtonClicked(HouseholdActivity view) {
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

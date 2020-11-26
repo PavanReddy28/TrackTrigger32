@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".EditProfile"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".JoinHH">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_profile"
+            android:text="Join a Household"
             android:textColor="?textColorAlertDialogListItem"
             android:textStyle="bold"
             android:textSize="22sp"/>
@@ -33,17 +33,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/hhPic"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="156dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profilepic"/>
+        <ImageView
+            android:id="@+id/hhPic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="155dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="156dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/profilepic"/>
 
         <TextView
             android:id="@+id/etName"
@@ -66,7 +66,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hhPic"/>
+            app:layout_constraintTop_toBottomOf="@+id/hhPic">
+
+            <EditText
+                android:id="@+id/etHHName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="Enter Household Name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="Enter Password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:text="Join" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

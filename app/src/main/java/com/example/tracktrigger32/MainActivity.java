@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth firebaseAuth;
     private List<AuthUI.IdpConfig> providers;
     DrawerLayout drawerLayout;
+
+    private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

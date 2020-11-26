@@ -2,34 +2,60 @@ package com.example.tracktrigger32;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class SettingsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class SettingsActivity extends AppCompatActivity {
 
-    DrawerLayout drawerLayout;
+    private TextView tvName;
+    private ImageView pic;
+    private Uri profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.drawer_settings);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+/*
+        if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null)
+        {
+            profilePic = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+            pic.setImageURI(profilePic);
+        }
+        else {
+            pic = findViewById(R.id.pic);
+        }*/
+
+        tvName = (TextView) findViewById(R.id.etName);
+        tvName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim());
+
     }
-
-
-    //Navigation Drawer Functionality
 
     public static void redirectActivity(Activity activity, Class aClass) {
 
@@ -43,59 +69,38 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         activity.startActivity(intent);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        closeDrawer(drawerLayout);
-    }
-
-
-    public static void openDrawer(DrawerLayout drawerLayout) {
-
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    public static void closeDrawer(DrawerLayout drawerLayout) {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
-        {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
-
-    public void ClickMenu(View view) {
-        //open drawer
-        openDrawer(drawerLayout);
-    }
-
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.drawer_home:
-                redirectActivity(this, SettingsActivity.class);
-                break;
-            case R.id.drawer_house:
-                redirectActivity(this, HouseholdActivity.class);
-                break;
-            case R.id.drawer_work:
-                redirectActivity(this, WorkActivity.class);
-                break;
-            case R.id.drawer_notes:
-                redirectActivity(this, NotesActivity.class);
-                break;
-            case R.id.drawer_settings:
-                break;
-            case R.id.drawer_logout:
-                FirebaseAuth.getInstance().signOut();
-                redirectActivity(this, MainActivity.class);
-                finish();
-                break;
-        }
-
-        drawerLayout.closeDrawers();
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
         return true;
     }
 
-    //Navigation Functionality ends
+    public void ClickPic(View view) {
+
+    }
+
+    public void ClickEditProfile(View view) {
+        redirectActivity(this, EditProfile.class);
+    }
+
+    public void ClickLogout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        redirectActivity(this, MainActivity.class);
+        finish();
+    }
+
+    public void CLickReport(View view) {
+
+    }
+
+    public void ClickHelp(View view) {
+
+    }
+
+    public void ClickSystem(View view) {
+
+    }
+
 
 }

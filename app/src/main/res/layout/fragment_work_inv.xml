@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="651dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -28,21 +28,33 @@
         <ListView
             android:id="@+id/lvInventory"
             android:layout_width="match_parent"
-            android:layout_height="559dp">
+            android:layout_height="match_parent">
 
         </ListView>
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ibAdd"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="310dp"
-        android:layout_marginTop="515dp"
-        android:layout_marginBottom="70dp"
-        android:clickable="true"
-        app:maxImageSize="40dp"
-        app:srcCompat="@drawable/floating_button_foreground" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ibAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/floating_button_foreground"
+            app:maxImageSize="@android:dimen/app_icon_size"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.943"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.957"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

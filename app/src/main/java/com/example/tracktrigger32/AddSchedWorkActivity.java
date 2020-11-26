@@ -110,4 +110,8 @@ public class AddSchedWorkActivity extends AppCompatActivity {
 
 
     }
+
+    public void GoBack(View view){
+        AddSchedWorkActivity.this.finish();
+    }
 }

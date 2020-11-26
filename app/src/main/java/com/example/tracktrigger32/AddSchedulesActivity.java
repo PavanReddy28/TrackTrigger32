@@ -112,6 +112,9 @@ public class AddSchedulesActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public void GoBack(View view){
+        AddSchedulesActivity.this.finish();
     }
 }

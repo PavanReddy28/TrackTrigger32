@@ -114,7 +114,7 @@ public class HHScheduleFragment extends Fragment {
                 Date remind = new Date(dtStr);
                 reminders.setRemindDate(remind);
                 temp.add(reminders);
-                empty.setText(temp.get(0).getMessage());
+                //empty.setText(temp.get(0).getMessage());
 
                 /*Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
                 calendar.setTime(remind);

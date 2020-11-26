@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F3F3"
+    android:orientation="vertical"
+    tools:context=".WorkInvFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="651dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:text="@string/product_heading"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/lvInventory"
+            android:layout_width="match_parent"
+            android:layout_height="559dp">
+
+        </ListView>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ibAdd"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="515dp"
+        android:layout_marginBottom="70dp"
+        android:clickable="true"
+        app:maxImageSize="40dp"
+        app:srcCompat="@drawable/floating_button_foreground" />
+
+</FrameLayout>

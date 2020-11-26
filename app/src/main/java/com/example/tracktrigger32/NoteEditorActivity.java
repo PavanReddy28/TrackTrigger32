@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -53,7 +54,10 @@ public class NoteEditorActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
+    public void GoBack(View view){
+        NoteEditorActivity.this.finish();
+    }
+
+
 }

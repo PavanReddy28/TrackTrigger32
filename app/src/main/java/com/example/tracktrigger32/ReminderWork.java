@@ -2,8 +2,8 @@ package com.example.tracktrigger32;
 
 import java.util.Date;
 
-//@Entity(tableName = "reminder")
-public class Reminder {
+public class ReminderWork {
+
     //@PrimaryKey(autoGenerate = true)
     //@NonNull
     //public int id;
@@ -11,7 +11,7 @@ public class Reminder {
     String message;
     Date remindDate;
 
-    /*public Reminder(String message, Date remindDate) {
+    /*public ReminderWork(String message, Date remindDate) {
         this.message = message;
         this.remindDate = remindDate;
     }*/

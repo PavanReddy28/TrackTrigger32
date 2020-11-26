@@ -70,6 +70,7 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.drawer_home:
+                redirectActivity(this, MainActivity.class);
                 break;
             case R.id.drawer_house:
                 redirectActivity(this, HouseholdActivity.class);
@@ -78,7 +79,6 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
                 redirectActivity(this, WorkActivity.class);
                 break;
             case R.id.drawer_notes:
-                redirectActivity(this, NotesActivity.class);
                 break;
             case R.id.drawer_settings:
                 redirectActivity(this, SettingsActivity.class);

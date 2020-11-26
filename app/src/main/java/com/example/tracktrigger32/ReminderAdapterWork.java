@@ -1,24 +1,21 @@
 package com.example.tracktrigger32;
 
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
-public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyViewHolder>{
+public class ReminderAdapterWork extends RecyclerView.Adapter<ReminderAdapterWork.MyViewHolder> {
 
     private List<Reminder> allReminders;  //arraylist
     private TextView message,time;
 
-    public ReminderAdapter(List<Reminder> allReminders) {   //context
+    public ReminderAdapterWork(List<Reminder> allReminders) {   //context
         this.allReminders = allReminders;
     }
 
@@ -26,7 +23,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {  //adaptereminders.viewholder
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.sched_item_work,viewGroup,false);
         return new MyViewHolder(view);
     }
 
@@ -58,3 +55,4 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
 
 
 }
+

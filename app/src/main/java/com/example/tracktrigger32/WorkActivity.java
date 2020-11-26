@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,7 +29,35 @@ public class WorkActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.drawer_work);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WorkHomeFragment()).commit();
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    switch (item.getItemId()){
+                        case R.id.nav_home:
+                            selectedFragment = new WorkHomeFragment();
+                            break;
+                        case R.id.nav_schedule:
+                            selectedFragment = new WorkScheduleFragment();
+                            break;
+                        case R.id.nav_inventory:
+                            selectedFragment = new WorkInvFragment();
+                            break;
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+
+                    return true;
+                }
+            };
+
 
 
 
@@ -67,51 +97,16 @@ public class WorkActivity extends AppCompatActivity implements NavigationView.On
         openDrawer(drawerLayout);
     }
 
-    /*
-
-
-
-    public void ClickProfile(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickHome(View view){
-        redirectActivity(this, MainActivity.class);
-    }
-
-    public void ClickHouse(View view){
-        redirectActivity(this, HouseholdActivity.class);
-    }
-
-    public void ClickWork(View view){
-        closeDrawer(drawerLayout);
-    }
-
-    public void ClickNotes(View view){
-        redirectActivity(this, NotesActivity.class);
-    }
-
-    public void ClickSettings(View view){
-        redirectActivity(this, SettingsActivity.class);
-    }
-
-    public void ClickLogout(View view){
-        FirebaseAuth.getInstance().signOut();
-        redirectActivity(this, MainActivity.class);
-        finish();
-    }
-     */
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.drawer_home:
+                redirectActivity(this, MainActivity.class);
                 break;
             case R.id.drawer_house:
                 redirectActivity(this, HouseholdActivity.class);
                 break;
             case R.id.drawer_work:
-                redirectActivity(this, WorkActivity.class);
                 break;
             case R.id.drawer_notes:
                 redirectActivity(this, NotesActivity.class);

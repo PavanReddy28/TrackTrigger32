@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <include
-    android:id="@+id/backbar"
+    android:id="@+id/searchbar"
     layout="@layout/main_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchbar"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,14 +48,14 @@
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<RelativeLayout
-android:layout_width="300dp"
-android:layout_height="match_parent"
-android:layout_gravity="start">
-
-<include layout="@layout/main_nav_drawer"/>
-
-
-</RelativeLayout>
+    <com.shreyaspatil.material.navigationview.MaterialNavigationView
+        android:id="@+id/navigation_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_drawer_header"
+        app:itemStyle="rounded_right"
+        app:menu="@menu/nav_drawer"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

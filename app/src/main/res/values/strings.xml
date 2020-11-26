@@ -14,4 +14,9 @@
     <string name="product_heading">Inventory</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="report_a_problem">Report a Problem</string>
+    <string name="help_and_support">Help and Support</string>
+    <string name="system_settings">System Settings</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings_and_privacy">Settings and Privacy</string>
 </resources>

@@ -6,13 +6,23 @@ public class productHHInv {
     private String description;
     private String category;
     private int quantity;
+    private int pos;
 
-    public productHHInv(String name, String id, String description, String category, int quantity) {
+    public productHHInv(String name, String id, String description, String category, int quantity, int pos) {
         this.name = name;
         this.id = id;
         this.description = description;
         this.category = category;
         this.quantity = quantity;
+        this.pos = pos;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
     }
 
     public String getName() {
@@ -22,6 +32,7 @@ public class productHHInv {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getId() {
         return id;

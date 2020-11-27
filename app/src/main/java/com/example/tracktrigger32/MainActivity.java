@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     String uId;
     User user1;
+    private Dialog dialog;
 
     //private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
     FirebaseFirestore firebaseFirestore;
@@ -104,18 +106,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 uId = user.getUid();
                 DocumentReference documentReference = firebaseFirestore.collection("Users").document(uId);
-                if(!user.getDisplayName().equals("") && !user.getPhoneNumber().equals("") && !user.getEmail().equals("") ) {
+                if((user.getDisplayName()!= null) && (user.getPhoneNumber()!=null) && (user.getEmail()!=null) ) {
                     user1.setName(user.getDisplayName().toString());
                     user1.setTelNum(user.getPhoneNumber().toString());
                     user1.setMailID(user.getEmail().toString());
+                    documentReference.set(user1);
                 }
                 else{
-                    Intent intent1 = new Intent(MainActivity.this, FirestoreUpdate.class);
-                    startActivityForResult(intent1, 1001);
+                    dialog = new Dialog(MainActivity.this);
+                    dialog.setContentView(R.layout.firestore_update_popup);
 
+                    final EditText etUName = dialog.findViewById(R.id.etUName);
+                    final EditText etUTelNum = dialog.findViewById(R.id.etUTelNum);
+                    final EditText etUMailID = dialog.findViewById(R.id.etUMailID);
+                    Button btnSave = dialog.findViewById(R.id.btnSave);
+
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            user1.setName(etUName.getText().toString());
+                            user1.setTelNum(etUTelNum.getText().toString());
+                            user1.setMailID(etUMailID.getText().toString());
+                            documentReference.set(user1);
+                        }
+                    });
                 }
-
-
 
 
             } else {

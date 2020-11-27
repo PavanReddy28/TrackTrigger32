@@ -39,7 +39,6 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HHHomeFragment()).commit();
 
         if(!loggedin)

@@ -33,7 +33,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        Reminder reminders = allReminders.get(i); // myViewHolder.itemView.settag(allreminders.get(i))
+        Reminder reminders = allReminders.get(i);  // myViewHolder.itemView.settag(allreminders.get(i))
         if(!reminders.getMessage().equals(""))
             message.setText(reminders.getMessage());
         else

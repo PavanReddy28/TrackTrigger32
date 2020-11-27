@@ -6,28 +6,84 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class NotesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+
+public class NotesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
+    static ArrayList<String> notes = new ArrayList<>() ;
+    static ArrayAdapter arrayAdapter ;
+private FloatingActionButton add ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+        add = findViewById(R.id.ibAdd) ;
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.drawer_notes);
-    }
+        ListView listView = (ListView) findViewById(R.id.listView) ;
+        notes.add("Example note") ;
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),NoteEditorActivity.class) ;
+                startActivity(intent) ;
 
+            }
+        }) ;
+
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, notes) ;
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(),NoteEditorActivity.class) ;
+                intent.putExtra("noteId" , i ) ;
+                startActivity(intent) ;
+
+
+            }
+        } );
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int itemToDelete = i ;
+
+                new AlertDialog.Builder(NotesActivity.this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Do you want to delete this note ? ")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                notes.remove(itemToDelete) ;
+                                arrayAdapter.notifyDataSetChanged();
+
+                            }
+                        }
+                        )
+                 .setNegativeButton("No" , null)
+                 .show() ;
+                return true;
+            }
+        });
+    }
 
     //Navigation Drawer Functionality
 
@@ -62,7 +118,6 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
     }
 
     public void ClickMenu(View view) {
-        //open drawer
         openDrawer(drawerLayout);
     }
 
@@ -76,9 +131,9 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
                 redirectActivity(this, HouseholdActivity.class);
                 break;
             case R.id.drawer_work:
-                redirectActivity(this, WorkActivity.class);
                 break;
             case R.id.drawer_notes:
+                redirectActivity(this, NotesActivity.class);
                 break;
             case R.id.drawer_settings:
                 redirectActivity(this, SettingsActivity.class);

@@ -15,6 +15,8 @@
         <activity android:name=".CreateHH"></activity>
         <activity android:name=".JoinHH" />
         <activity android:name=".EditProfile" />
+        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".NoteEditorActivity"></activity>
         <activity android:name=".AddSchedWorkActivity" />
         <activity android:name=".AddSchedulesActivity" />
         <activity android:name=".addActivityHHInv" />

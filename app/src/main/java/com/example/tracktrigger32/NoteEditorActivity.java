@@ -13,11 +13,13 @@ public class NoteEditorActivity extends AppCompatActivity {
     int noteId ;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_editor);
         EditText editText = (EditText)  findViewById(R.id.editText) ;
+        EditText etTitle = (EditText) findViewById(R.id.etTitle);
         Intent  intent = getIntent() ;
           noteId = intent.getIntExtra("noteId" ,-1) ;
         if(noteId !=-1 )

@@ -20,12 +20,15 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,15 +40,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<AuthUI.IdpConfig> providers;
     DrawerLayout drawerLayout;
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference usersRef = db.collection("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //assign variable
+        //Navigation Drawer Layout
         drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         //Firebase Auth Initialization
         providers = Arrays.asList(
@@ -59,13 +65,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(user==null)
         {
             showSignInOptions();
+            addUser();
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    }
 
+
+
+    /**-------------------------------------------------------Firestore--------------------------------------------------------------------
+     *
+     */
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
     }
+
+    public void addUser()
+    {
+        String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim();
+        String telNum = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString().trim();
+        String mailID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString().trim();
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+
+        User user = new User(name,telNum,mailID,userID);
+
+        usersRef.add(user);
+    }
+
+    public void loadUsers()
+    {
+        usersRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        
+                    }
+                });
+    }
+
+
+
+
+    /**-------------------------------------------------------------FirebaseUI-------------------------------------------------------------------
+     *
+     */
 
     private void showSignInOptions() {
         //login activity
@@ -89,9 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 // ...
                 Toast.makeText(this, "Signed in as "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
-
-
-
             } else {
                 if(response != null)
                 {
@@ -100,6 +142,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+    /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------
+     *
+     * @param activity
+     * @param aClass
+     */
 
     //Navigation Drawer Functionality
 
@@ -161,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .signOut(MainActivity.this)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
-                                // ...
+
                                 showSignInOptions();
                             }
                         }).addOnFailureListener(new OnFailureListener() {

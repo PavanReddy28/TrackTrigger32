@@ -23,16 +23,6 @@
             android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:ems="10"
-            android:hint="Title"
-            android:inputType="textPersonName"
-            android:textSize="30sp" />
-
-        <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

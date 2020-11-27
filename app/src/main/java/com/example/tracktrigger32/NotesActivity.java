@@ -7,8 +7,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +21,20 @@ import android.widget.ListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class NotesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     static ArrayList<String> notes = new ArrayList<>() ;
     static ArrayAdapter arrayAdapter ;
-private FloatingActionButton add ;
+    private FloatingActionButton add ;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference notebookRef = db.collection("Note");
 
 
 
@@ -42,7 +49,18 @@ private FloatingActionButton add ;
 
 
         ListView listView = (ListView) findViewById(R.id.listView) ;
-        notes.add("Example note") ;
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.tracktrigger32", Context.MODE_PRIVATE);
+
+        HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
+
+        if(set==null) {
+            notes.add("Example note");
+        }
+        else
+        {
+            notes = new ArrayList(set);
+        }
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +82,7 @@ private FloatingActionButton add ;
 
             }
         } );
+
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -79,6 +98,12 @@ private FloatingActionButton add ;
                                 notes.remove(itemToDelete) ;
                                 arrayAdapter.notifyDataSetChanged();
 
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.tracktrigger32", Context.MODE_PRIVATE);
+
+                                HashSet<String> set = new HashSet(NotesActivity.notes);
+
+                                sharedPreferences.edit().putStringSet("notes", set).apply();
+
                             }
                         }
                         )
@@ -87,6 +112,10 @@ private FloatingActionButton add ;
                 return true;
             }
         });
+    }
+
+    public void addNote(String text){
+
     }
 
     //Navigation Drawer Functionality

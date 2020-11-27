@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(user==null)
         {
             showSignInOptions();
-            addUser();
         }
 
     }
@@ -76,12 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      *
      */
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-    }
-
+/*
     public void addUser()
     {
         String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim();
@@ -104,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
     }
-
+*/
 
 
 
@@ -142,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
 
     /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------
      *

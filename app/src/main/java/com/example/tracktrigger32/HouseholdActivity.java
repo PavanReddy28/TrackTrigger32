@@ -18,15 +18,31 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HouseholdActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     public static Boolean loggedin = false;
+    String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference hhRef = db.collection("Households");
+
+    public static Boolean bool = false;
+
+    Household household;
+
+    public static String hhID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +58,47 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HHHomeFragment()).commit();
 
-        if(!loggedin)
-        {
-            showAlertDialogButtonClicked(this);
-        }
+        //login();
+        check();
+//!(household.getLoggedIn()!=null&&household.getLoggedIn())
+
 
     }
+
+    public void check()
+    {
+        hhRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Boolean bool = true;
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                        {
+                            Household hh1 = documentSnapshot.toObject(Household.class);
+                            if(hh1.getMemID().equals(uID)) {
+                                household = hh1;
+                                hhID = documentSnapshot.getId();
+                                Toast.makeText(HouseholdActivity.this, "Part of " + household.getHhName(), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                showAlertDialogButtonClicked(HouseholdActivity.this);
+                            }
+                            break;
+
+                        }
+                    }
+                });
+    }
+
 
     public void showAlertDialogButtonClicked(HouseholdActivity view) {
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create a Household or join a Household");
+        builder.setCancelable(false);
+
 
         String[] activity = {"Join", "Create"};
         builder.setItems(activity, new DialogInterface.OnClickListener() {
@@ -62,8 +107,11 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
                 switch (which) {
                     case 0:
                         redirectActivity(HouseholdActivity.this, JoinHH.class);
+                        break;
                     case 1:
-                        redirectActivity(HouseholdActivity.this, JoinHH.class);
+                        redirectActivity(HouseholdActivity.this, CreateHH.class);
+                        break;
+
                 }
             }
         });

@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TrackTrigger32">
-        <activity android:name=".CreateHH"></activity>
+        <activity android:name=".FirestoreUpdate"></activity>
+        <activity android:name=".CreateHH" />
         <activity android:name=".JoinHH" />
-        <activity android:name=".EditProfile"></activity>
-        <activity android:name=".NoteEditorActivity"></activity>
+        <activity android:name=".EditProfile" />
+        <activity android:name=".NoteEditorActivity" />
         <activity android:name=".AddSchedWorkActivity" />
         <activity android:name=".AddSchedulesActivity" />
         <activity android:name=".addActivityHHInv" />

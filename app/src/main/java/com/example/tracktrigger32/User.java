@@ -5,6 +5,9 @@ public class User {
     private String name,telNum, mailID, gender,userID;
     private String hhID, workID, notesID;
 
+    public User() {
+    }
+
     public User(String name, String telNum, String mailID, String userID) {
         this.name = name;
         this.telNum = telNum;

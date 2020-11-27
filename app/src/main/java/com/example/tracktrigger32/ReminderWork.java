@@ -11,10 +11,14 @@ public class ReminderWork {
     String message;
     Date remindDate;
 
-    /*public ReminderWork(String message, Date remindDate) {
+    public ReminderWork(){
+        //empty constructor
+    }
+
+    public ReminderWork(String message, Date remindDate) {
         this.message = message;
         this.remindDate = remindDate;
-    }*/
+    }
 
     public String getMessage() {
         return message;

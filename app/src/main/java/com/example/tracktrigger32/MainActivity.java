@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<AuthUI.IdpConfig> providers;
     DrawerLayout drawerLayout;
     String uId;
-    User user1;
+    User user1 = new User();
     private Dialog dialog;
 
     //private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         firebaseFirestore = FirebaseFirestore.getInstance();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // ...
                 Toast.makeText(this, "Signed in as "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
 
-                uId = user.getUid();
+                /*uId = user.getUid();
                 DocumentReference documentReference = firebaseFirestore.collection("Users").document(uId);
                 if((user.getDisplayName()!= null) && (user.getPhoneNumber()!=null) && (user.getEmail()!=null) ) {
                     user1.setName(user.getDisplayName().toString());
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             documentReference.set(user1);
                         }
                     });
-                }
+                }*/
 
 
             } else {

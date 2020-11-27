@@ -14,7 +14,6 @@
         android:theme="@style/Theme.TrackTrigger32">
         <activity android:name=".CreateHH"></activity>
         <activity android:name=".JoinHH" />
-        <activity android:name=".EditProfile" />
         <activity android:name=".EditProfile"></activity>
         <activity android:name=".NoteEditorActivity"></activity>
         <activity android:name=".AddSchedWorkActivity" />

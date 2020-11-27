@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrackTrigger32">
         <activity android:name=".EditProfile"></activity>
+        <activity android:name=".NoteEditorActivity"></activity>
         <activity android:name=".AddSchedWorkActivity" />
         <activity android:name=".AddSchedulesActivity" />
         <activity android:name=".addActivityHHInv" />

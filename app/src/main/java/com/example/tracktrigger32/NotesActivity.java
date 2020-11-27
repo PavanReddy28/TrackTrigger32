@@ -37,6 +37,10 @@ private FloatingActionButton add ;
         setContentView(R.layout.activity_notes);
         add = findViewById(R.id.ibAdd) ;
         drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.drawer_house);
+
         ListView listView = (ListView) findViewById(R.id.listView) ;
         notes.add("Example note") ;
         add.setOnClickListener(new View.OnClickListener() {

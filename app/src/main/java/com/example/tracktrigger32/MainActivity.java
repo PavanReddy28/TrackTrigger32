@@ -36,8 +36,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth firebaseAuth;
     private List<AuthUI.IdpConfig> providers;
     DrawerLayout drawerLayout;
+    String uId;
+    User user1;
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
+    //private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             showSignInOptions();
         }
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -89,6 +94,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 // ...
                 Toast.makeText(this, "Signed in as "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                uId = user.getUid();
+                DocumentReference documentReference = firebaseFirestore.collection("Users").document(uId);
+                if(!user.getDisplayName().equals("") && !user.getPhoneNumber().equals("") && !user.getEmail().equals("") ) {
+                    user1.setName(user.getDisplayName().toString());
+                    user1.setTelNum(user.getPhoneNumber().toString());
+                    user1.setMailID(user.getEmail().toString());
+                }
+                else{
+
+                }
+
 
 
 

@@ -1,12 +1,14 @@
 package com.example.tracktrigger32;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HouseholdActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
+    public static Boolean loggedin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,37 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HHHomeFragment()).commit();
 
+        if(!loggedin)
+        {
+            showAlertDialogButtonClicked(this);
+        }
+
     }
+
+    public void showAlertDialogButtonClicked(HouseholdActivity view) {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Create a Household or join a Household");
+
+        String[] activity = {"Join", "Create"};
+        builder.setItems(activity, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        redirectActivity(HouseholdActivity.this, JoinHH.class);
+                    case 1:
+                        redirectActivity(HouseholdActivity.this, JoinHH.class);
+                }
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

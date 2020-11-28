@@ -15,6 +15,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -82,10 +87,16 @@ public class AddSchedulesActivity extends AppCompatActivity {
                 //Date remind = new Date(textView.getText().toString().trim());
                 //reminders.setRemindDate(remind);
                 //roomDAO.Insert(reminders);
-                Intent intentAdd = new Intent();
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                String userID = fAuth.getCurrentUser().getUid();
+                CollectionReference collectionReference = FirebaseFirestore.getInstance()
+                        .collection("Households").document(HouseholdActivity.hhID).collection("Household Reminders");
+                collectionReference.add(new Reminder(message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
+
+                /*Intent intentAdd = new Intent();
                 intentAdd.putExtra("msg", message.getText().toString().trim());
                 intentAdd.putExtra("dt", textView.getText().toString().trim());
-                setResult(RESULT_OK, intentAdd);
+                setResult(RESULT_OK, intentAdd);*/
 
                 AddSchedulesActivity.this.finish();
 

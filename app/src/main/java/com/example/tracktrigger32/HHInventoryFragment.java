@@ -1,6 +1,12 @@
 package com.example.tracktrigger32;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 import static android.app.Activity.RESULT_OK;
@@ -176,6 +183,9 @@ public class HHInventoryFragment extends Fragment {
             }
         });
 
+        createNotificationChannel();
+        sendNotif();
+
         return v2;
     }
 
@@ -194,6 +204,33 @@ public class HHInventoryFragment extends Fragment {
                 Toast.makeText(getContext(), "Product added.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void sendNotif() {
+        Toast.makeText(getActivity(), "notif2", Toast.LENGTH_SHORT).show();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 57);
+        calendar.set(Calendar.SECOND, 30);
+        Intent intent = new Intent(getActivity(), HHReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 500, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            CharSequence name = "UserReminderChannel";
+            String description = "Channel for TrackTrigger Users";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyUser", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
     }
 
 }

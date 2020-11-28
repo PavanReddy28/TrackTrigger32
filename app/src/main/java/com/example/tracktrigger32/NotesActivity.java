@@ -164,9 +164,9 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
                 redirectActivity(this, HouseholdActivity.class);
                 break;
             case R.id.drawer_work:
+                redirectActivity(this, WorkActivity.class);
                 break;
             case R.id.drawer_notes:
-                redirectActivity(this, NotesActivity.class);
                 break;
             case R.id.drawer_settings:
                 redirectActivity(this, SettingsActivity.class);

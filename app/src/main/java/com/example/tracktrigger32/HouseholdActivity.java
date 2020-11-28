@@ -79,16 +79,14 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
                                 household = hh1;
                                 hhID = documentSnapshot.getId();
                                 Toast.makeText(HouseholdActivity.this, "Part of " + household.getHhName(), Toast.LENGTH_SHORT).show();
+                                return;
                             }
-                            else
-                            {
-                                showAlertDialogButtonClicked(HouseholdActivity.this);
-                            }
-                            break;
 
                         }
+                        showAlertDialogButtonClicked(HouseholdActivity.this);
                     }
                 });
+
     }
 
 

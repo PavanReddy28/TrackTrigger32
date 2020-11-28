@@ -47,6 +47,8 @@ public class NotesActivity extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.setCheckedItem(R.id.drawer_house);
+
 
         ListView listView = (ListView) findViewById(R.id.listView) ;
 

@@ -5,6 +5,11 @@ public class User {
     private String name,telNum, mailID, gender,userID;
     private String hhID, workID, notesID;
 
+
+    public User() {
+    }
+
+
     public User(String name, String telNum, String mailID, String userID) {
         this.name = name;
         this.telNum = telNum;
@@ -60,6 +65,16 @@ public class User {
 
     public void setWorkID(String workID) {
         this.workID = workID;
+
+    }
+
+    public String getNotesID() {
+        return notesID;
+    }
+
+    /*public String getGender() {
+        return gender;
+
     }
 
     public String getNotesID() {
@@ -69,7 +84,6 @@ public class User {
     /*public String getGender() {
         return gender;
     }
-
     public void setGender(String gender) {
         this.gender = gender;
     }*/

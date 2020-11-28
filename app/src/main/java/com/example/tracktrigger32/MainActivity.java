@@ -1,15 +1,20 @@
 package com.example.tracktrigger32;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,15 +39,22 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static int AUTH_REQUEST_CODE = 1001;
     private FirebaseAuth firebaseAuth;
     private List<AuthUI.IdpConfig> providers;
     DrawerLayout drawerLayout;
+    String uId;
+    User user1 = new User();
+    private Dialog dialog;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference usersRef = db.collection("Users");
+
+    //private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
+    FirebaseFirestore firebaseFirestore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +79,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             showSignInOptions();
         }
+
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -130,6 +149,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 // ...
                 Toast.makeText(this, "Signed in as "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+
+                /*uId = user.getUid();
+                DocumentReference documentReference = firebaseFirestore.collection("Users").document(uId);
+                if((user.getDisplayName()!= null) && (user.getPhoneNumber()!=null) && (user.getEmail()!=null) ) {
+                    user1.setName(user.getDisplayName().toString());
+                    user1.setTelNum(user.getPhoneNumber().toString());
+                    user1.setMailID(user.getEmail().toString());
+                    documentReference.set(user1);
+                }
+                else{
+                    dialog = new Dialog(MainActivity.this);
+                    dialog.setContentView(R.layout.firestore_update_popup);
+
+                    final EditText etUName = dialog.findViewById(R.id.etUName);
+                    final EditText etUTelNum = dialog.findViewById(R.id.etUTelNum);
+                    final EditText etUMailID = dialog.findViewById(R.id.etUMailID);
+                    Button btnSave = dialog.findViewById(R.id.btnSave);
+
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            user1.setName(etUName.getText().toString());
+                            user1.setTelNum(etUTelNum.getText().toString());
+                            user1.setMailID(etUMailID.getText().toString());
+                            documentReference.set(user1);
+                        }
+                    });
+                }*/
+
+
+
             } else {
                 if(response != null)
                 {
@@ -138,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
 
 
 

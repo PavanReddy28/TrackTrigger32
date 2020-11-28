@@ -11,10 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,11 +29,15 @@ public class WorkScheduleFragment extends Fragment {
     private FloatingActionButton add;
     //private Dialog dialog;
     //private AppDatabase appDatabase;
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    String userID = fAuth.getCurrentUser().getUid();
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    private ReminderAdapterWork  adapter;
     RecyclerView.LayoutManager layoutManager;
-    public ArrayList<Reminder> temp;     //can come from database, hardcode instead
+    //public ArrayList<Reminder> temp;     //can come from database, hardcode instead
     private TextView empty;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference collectionReference = db.collection("Work").document(userID).collection("Work Reminders");
     //private LinearLayoutManager linearLayoutManager;
     final int WORKSCHEDULE = 3;
     //public Reminder reminders = new Reminder();
@@ -60,28 +70,29 @@ public class WorkScheduleFragment extends Fragment {
 
         add = v2.findViewById(R.id.floatingButton);
         empty =  v2.findViewById(R.id.empty);
+
+        //setItemsInRecyclerView();
+
+        //temp = new ArrayList<Reminder>();
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(getActivity(), com.example.tracktrigger32.AddSchedWorkActivity.class);
+                //startActivityForResult(intent3, WORKSCHEDULE);
+                startActivity(intent3);
+            }
+
+        });
         recyclerView = v2.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        //setItemsInRecyclerView();
-
-        temp = new ArrayList<Reminder>();
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent3 = new Intent(getActivity(), com.example.tracktrigger32.AddSchedulesActivity.class);
-                startActivityForResult(intent3, WORKSCHEDULE);
-                //startActivity(intent3);
-            }
-
-        });
-        //setItemsInRecyclerView();
+        setItemsInRecyclerView();
         return v2;
     }
 
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Reminder reminders = new Reminder();
@@ -97,7 +108,7 @@ public class WorkScheduleFragment extends Fragment {
                 temp.add(reminders);
                 empty.setText(temp.get(0).getMessage());
 
-                /*Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
+                *//*Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
                 calendar.setTime(remind);
                 calendar.set(Calendar.SECOND,0);
                 Intent intent = new Intent(getActivity(),NotifierAlarm.class);
@@ -106,7 +117,7 @@ public class WorkScheduleFragment extends Fragment {
                 intent.putExtra("id",reminders.getId());
                 PendingIntent intent1 = PendingIntent.getBroadcast(getActivity(),reminders.getId(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);*/
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);*//*
 
                 //Toast.makeText(getActivity(),"Inserted Successfully",Toast.LENGTH_SHORT).show();
                 setItemsInRecyclerView();
@@ -115,20 +126,48 @@ public class WorkScheduleFragment extends Fragment {
             }
         }
 
-    }
+    }*/
 
-    public void setItemsInRecyclerView(){
+    private void setItemsInRecyclerView(){
 
         //RoomDAO dao = appDatabase.getRoomDAO();
         //temp = dao.orderThetable();
+        Query query = collectionReference.orderBy("remindDate", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<ReminderWork> options = new FirestoreRecyclerOptions.Builder<ReminderWork>()
+                .setQuery(query, ReminderWork.class)
+                .build();
 
-        if(temp.size()>0) {
+        //if(temp.size()>0) {
             empty.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
-        }
-        adapter = new ReminderAdapter(temp);
+        //}
+        adapter = new ReminderAdapterWork(options);
         recyclerView.setAdapter(adapter);
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteReminder(viewHolder.getAbsoluteAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
 

@@ -14,7 +14,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddSchedWorkActivity extends AppCompatActivity {
 
@@ -78,10 +83,19 @@ public class AddSchedWorkActivity extends AppCompatActivity {
                 //Date remind = new Date(textView.getText().toString().trim());
                 //reminders.setRemindDate(remind);
                 //roomDAO.Insert(reminders);
-                Intent intentAdd = new Intent();
+
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                String userID = fAuth.getCurrentUser().getUid();
+                CollectionReference collectionReference = FirebaseFirestore.getInstance()
+                        .collection("Work").document(userID).collection("Work Reminders");
+                collectionReference.add(new ReminderWork(message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
+
+
+
+                /*Intent intentAdd = new Intent();
                 intentAdd.putExtra("msg", message.getText().toString().trim());
                 intentAdd.putExtra("dt", textView.getText().toString().trim());
-                setResult(RESULT_OK, intentAdd);
+                setResult(RESULT_OK, intentAdd);*/
 
                 AddSchedWorkActivity.this.finish();
 

@@ -27,11 +27,13 @@ public class CreateHH extends AppCompatActivity {
     Button btnCreate;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference hhRef = db.collection("Households");
+    Household hh1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_h_h);
+
 
         etHHName = findViewById(R.id.etHHName);
         etPassword = findViewById(R.id.etPassword);
@@ -60,6 +62,19 @@ public class CreateHH extends AppCompatActivity {
                 HouseholdActivity.bool = true;
                 Household hh = new Household(hhname, hhpwd, userID, true);
                 addHH(hh);
+                /*hhRef.whereEqualTo("hhName", hhname)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    hh1 = documentSnapshot.toObject(Household.class);
+
+
+                                }
+                            }
+                        });*/
                 redirectActivity(CreateHH.this, HouseholdActivity.class);
                 finish();
 

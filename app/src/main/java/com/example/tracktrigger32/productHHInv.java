@@ -8,6 +8,8 @@ public class productHHInv {
     private int quantity;
     private int pos;
 
+    public productHHInv(){}
+
     public productHHInv(String name, String id, String description, String category, int quantity, int pos) {
         this.name = name;
         this.id = id;

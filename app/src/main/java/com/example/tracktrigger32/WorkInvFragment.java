@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,19 +32,21 @@ import static android.app.Activity.RESULT_OK;
 public class WorkInvFragment extends Fragment {
 
     ListView lvInventory;
-    ArrayList<productHHInv> list;
+    public ArrayList<productHHInv> list;
     Button btnAdd,btnSub;
     FloatingActionButton ibAdd;
     final int EDITACTIVITY=9;
     final int ADDACTIVITY=7;
     static int k =0;
+    private String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference documentReference = db.document("Households/"+HouseholdActivity.hhID);
-    CollectionReference cr = db.collection("Households/"+HouseholdActivity.hhID+"/Products");
+    private DocumentReference documentReference = db.document("Work/"+uID);
+    private CollectionReference cr = db.collection("Work/"+uID+"/Products");
 
     public void addItem(String Name, String Description, String Category, String Id, int Quantity, int pos ){
         productHHInv product = new productHHInv(Name,Id,Description,Category,Quantity,pos);
+        addProduct(product);
         list.add(product);
 
         productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
@@ -64,11 +67,39 @@ public class WorkInvFragment extends Fragment {
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity",0));
 
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Work/"+uID+"/Products/"+documentSnapshot.getId()).delete();
+                                    addProduct(product);
+                                }
+                            }
+                        });
+
                 productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
                 lvInventory.setAdapter(adapter);
             }else if (resultCode==RESULT_FIRST_USER){
                 int pos=data.getIntExtra("Position",0);
                 list.remove(pos);
+
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Work/"+uID+"/Products/"+documentSnapshot.getId()).delete();
+                                }
+                            }
+                        });
+
                 productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
                 lvInventory.setAdapter(adapter);
 
@@ -81,11 +112,6 @@ public class WorkInvFragment extends Fragment {
             }
         }
     }
-
-
-
-
-
 
 
     @Override
@@ -107,19 +133,18 @@ public class WorkInvFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        int i =0;
                         for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
                         {
                             productHHInv product = documentSnapshot.toObject(productHHInv.class);
                             list.add(product);
+                            productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
+                            lvInventory.setAdapter(adapter);
                         }
                     }
                 });
 
 
 
-        productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
-        lvInventory.setAdapter(adapter);
 
         lvInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -144,19 +169,21 @@ public class WorkInvFragment extends Fragment {
             }
         });
 
-        public void addProduct(productHHInv prod)
-        {
-            k++;
-            documentReference.collection("Products")
-                    .add(prod)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(getContext(), "Product added.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
 
         return v3;
     }
+
+    private void addProduct(productHHInv prod)
+    {
+        k++;
+        db.collection("Work/"+uID+"/Products")
+                .add(prod)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "Product added.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }

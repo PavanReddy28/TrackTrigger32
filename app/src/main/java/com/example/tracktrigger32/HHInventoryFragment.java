@@ -45,6 +45,7 @@ public class HHInventoryFragment extends Fragment {
     public void addItem(String Name, String Description, String Category, String Id, int Quantity, int pos){
         productHHInv product = new productHHInv(Name,Id,Description,Category,Quantity, pos);
         addProduct(product);
+        list.add(product);
 
         productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
         lvInventory.setAdapter(adapter);
@@ -64,7 +65,19 @@ public class HHInventoryFragment extends Fragment {
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity",0));
 
-
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                    addProduct(product);
+                                }
+                            }
+                        });
 
 
 
@@ -72,7 +85,22 @@ public class HHInventoryFragment extends Fragment {
                 lvInventory.setAdapter(adapter);
             }else if (resultCode==RESULT_FIRST_USER){
                 int pos=data.getIntExtra("Position",0);
+
+
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                }
+                            }
+                        });
                 list.remove(pos);
+
                 productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
                 lvInventory.setAdapter(adapter);
 
@@ -116,14 +144,15 @@ public class HHInventoryFragment extends Fragment {
                         {
                             productHHInv product = documentSnapshot.toObject(productHHInv.class);
                             list.add(product);
+                            productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
+                            lvInventory.setAdapter(adapter);
                         }
                     }
                 });
 
 
 
-        productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
-        lvInventory.setAdapter(adapter);
+
 
         lvInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

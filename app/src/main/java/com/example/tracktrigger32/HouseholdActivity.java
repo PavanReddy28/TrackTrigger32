@@ -80,6 +80,15 @@ public class HouseholdActivity extends AppCompatActivity implements NavigationVi
                                 Toast.makeText(HouseholdActivity.this, "Part of " + household.getHhName(), Toast.LENGTH_SHORT).show();
                                 return;
                             }
+                            if(hh1.getMem1ID()!=null) {
+                                if (hh1.getMem1ID().equals(uID)) {
+                                    household = hh1;
+                                    hhID = documentSnapshot.getId();
+                                    Toast.makeText(HouseholdActivity.this, "Part of " + household.getHhName(), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+
 
                         }
                         showAlertDialogButtonClicked(HouseholdActivity.this);

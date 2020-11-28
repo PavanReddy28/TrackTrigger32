@@ -45,6 +45,10 @@ public class ReminderAdapterWork extends FirestoreRecyclerAdapter<ReminderWork, 
         return new MyViewHolder(view);
     }
 
+    public void deleteReminder(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull ReminderWork model) {
 

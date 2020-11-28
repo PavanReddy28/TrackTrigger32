@@ -124,7 +124,6 @@ public class HHInventoryFragment extends Fragment {
 
 
 
-        btnSub=v2.findViewById(R.id.btnSub);
 
         ibAdd=v2.findViewById(R.id.ibAdd);
 

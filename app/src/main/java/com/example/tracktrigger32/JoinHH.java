@@ -74,8 +74,8 @@ public class JoinHH extends AppCompatActivity {
 
                                         if(hh1.getHhpwd().equals(hhpwd)){
                                                 HouseholdActivity.loggedin = true;
-                                                hh1.setMemID(userID);
-                                                db.collection("Households").document(documentSnapshot.getId()).update("memID", userID);
+                                                hh1.setMem1ID(userID);
+                                                db.collection("Households").document(documentSnapshot.getId()).update("mem1ID", userID);
                                                 redirectActivity(JoinHH.this, HouseholdActivity.class);
                                             Toast.makeText(JoinHH.this, "Joined"+hhname+" Household", Toast.LENGTH_SHORT).show();
                                                 finish();

@@ -120,7 +120,7 @@ public class WorkInvFragment extends Fragment {
 
         View v3= inflater.inflate(R.layout.fragment_work_inv, container, false);
 
-        btnSub=v3.findViewById(R.id.btnSub);
+
 
         ibAdd=v3.findViewById(R.id.ibAdd);
 

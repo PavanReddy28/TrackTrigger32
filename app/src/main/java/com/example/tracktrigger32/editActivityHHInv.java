@@ -4,17 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import android.widget.ImageButton;
+
 import android.widget.ImageView;
+
 import android.widget.Toast;
 
 public class editActivityHHInv extends AppCompatActivity {
 
     EditText editTvQuantity,editTvName,editTvCategory,editTvDescription,editTvId;
     Button editBtnAdd,editBtnSub,editBtnSubmit,removeBtnSubmit;
+    ImageButton btnWhatsapp,btnGmail;
+    String gmailTo="",gmailSubject="Inventory product details",gmailMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +56,46 @@ public class editActivityHHInv extends AppCompatActivity {
         editBtnSub=findViewById(R.id.addBtnSub);
         editBtnSubmit=findViewById(R.id.addBtnSubmit);
         removeBtnSubmit=findViewById(R.id.removeBtnSubmit);
+        btnWhatsapp=findViewById(R.id.btnWhatsapp);
+        btnGmail=findViewById(R.id.btnGmail);
 
         editTvName.setText(name);
         editTvCategory.setText(category);
         editTvDescription.setText(description);
         editTvQuantity.setText(""+quantity);
         editTvId.setText(id);
+
+        btnWhatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean installed = isAppInstalled("com.whatsapp");
+
+                if(installed){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone&text=hello"));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(editActivityHHInv.this, "Whatsapp not installed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnGmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gmailMessage="Inventory summary of product: \nProduct Name: "+name+
+                "\nProduct Category: "+category+"\nProduct Description: "+description+
+                        "\nProduct Id: "+id+"\nProduct Quantity : "+quantity;
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("mailto:"+gmailTo));
+                intent.putExtra(Intent.EXTRA_SUBJECT,gmailSubject);
+                intent.putExtra(Intent.EXTRA_TEXT,gmailMessage);
+                startActivity(intent);
+
+            }
+        });
+
+
 
         editBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,5 +165,19 @@ public class editActivityHHInv extends AppCompatActivity {
 
 
 
+    }
+
+    private boolean isAppInstalled(String s) {
+
+        PackageManager packageManager= getPackageManager();
+        boolean is_installed;
+        try{
+            packageManager.getPackageInfo(s,PackageManager.GET_ACTIVITIES);
+            is_installed=true;
+        } catch (PackageManager.NameNotFoundException e) {
+            is_installed=false;
+            e.printStackTrace();
+        }
+        return is_installed;
     }
 }

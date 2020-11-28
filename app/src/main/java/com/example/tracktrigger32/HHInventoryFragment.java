@@ -8,12 +8,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -28,8 +36,15 @@ public class HHInventoryFragment extends Fragment {
     FloatingActionButton ibAdd;
     final int EDITACTIVITY=9;
     final int ADDACTIVITY=7;
-    public void addItem(String Name, String Description, String Category, String Id, int Quantity ){
-        productHHInv product = new productHHInv(Name,Id,Description,Category,Quantity);
+    static int k = 0;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference documentReference = db.document("Households/"+HouseholdActivity.hhID);
+    CollectionReference cr = db.collection("Households/"+HouseholdActivity.hhID+"/Products");
+
+    public void addItem(String Name, String Description, String Category, String Id, int Quantity, int pos){
+        productHHInv product = new productHHInv(Name,Id,Description,Category,Quantity, pos);
+        addProduct(product);
         list.add(product);
 
         productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
@@ -50,11 +65,42 @@ public class HHInventoryFragment extends Fragment {
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity",0));
 
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                    addProduct(product);
+                                }
+                            }
+                        });
+
+
+
                 productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
                 lvInventory.setAdapter(adapter);
             }else if (resultCode==RESULT_FIRST_USER){
                 int pos=data.getIntExtra("Position",0);
+
+
+                cr.whereEqualTo("pos", pos).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                int i =0;
+                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                                {
+                                    productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                }
+                            }
+                        });
                 list.remove(pos);
+
                 productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list);
                 lvInventory.setAdapter(adapter);
 
@@ -63,7 +109,7 @@ public class HHInventoryFragment extends Fragment {
 
             if (resultCode==RESULT_OK){
                 addItem(data.getStringExtra("newName"),data.getStringExtra("newDescription"),
-                        data.getStringExtra("newCategory"),data.getStringExtra("newId"),data.getIntExtra("newQuantity",1));
+                        data.getStringExtra("newCategory"),data.getStringExtra("newId"),data.getIntExtra("newQuantity",1), k);
             }
         }
     }
@@ -87,17 +133,26 @@ public class HHInventoryFragment extends Fragment {
 
         list = new ArrayList<productHHInv>();
 
-        productHHInv product1 = new productHHInv("Coke","12345","Taste the thunder","Beverages",5);
-        productHHInv product2 = new productHHInv("Apple","12333","Keeps the doc away","Fruits",10);
-        productHHInv product3 = new productHHInv("Lays","94845","Always keep a pack in the kitchen for emergency!","Snacks",4);
-
-        list.add(product1);
-        list.add(product2);
-        list.add(product3);
 
 
-        productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
-        lvInventory.setAdapter(adapter);
+        cr.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        int i =0;
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                        {
+                            productHHInv product = documentSnapshot.toObject(productHHInv.class);
+                            list.add(product);
+                            productAdapterHHInv adapter = new productAdapterHHInv(getContext(),list); //caution
+                            lvInventory.setAdapter(adapter);
+                        }
+                    }
+                });
+
+
+
+
 
         lvInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,10 +177,24 @@ public class HHInventoryFragment extends Fragment {
             }
         });
 
-
-
-
-
         return v2;
     }
+
+    /**-------------------------------------------------Firestore----------------------------------------------
+     *
+     */
+
+    public void addProduct(productHHInv prod)
+    {
+        k++;
+        documentReference.collection("Products")
+                .add(prod)
+        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getContext(), "Product added.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

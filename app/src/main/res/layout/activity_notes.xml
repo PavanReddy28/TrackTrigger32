@@ -12,25 +12,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/include"
-            layout="@layout/main_toolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:title=""
             app:layout_constraintBottom_toTopOf="@+id/fragment_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nav_bar"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/backArrow"
+                android:onClick="ClickMenu"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notes"
+                android:textAlignment="center"
+                android:textColor="?textColorAlertDialogListItem"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:layout_marginEnd="50dp"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
             android:id="@+id/fragment_container"
@@ -39,11 +50,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include">
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
         </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

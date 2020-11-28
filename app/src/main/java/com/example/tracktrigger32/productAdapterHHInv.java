@@ -32,19 +32,15 @@ public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row_layout_hh_inv,parent,false);
         TextView tvName = (TextView) rowView.findViewById(R.id.tvName);
-        TextView tvId = (TextView) rowView.findViewById(R.id.tvId);
         TextView tvQuantity = (TextView) rowView.findViewById(R.id.tvQuantity);
         TextView tvDescription = (TextView) rowView.findViewById(R.id.tvDescription);
         TextView tvCategory = (TextView) rowView.findViewById(R.id.tvCategory);
 
 
-        Button btnSub = (Button) rowView.findViewById(R.id.btnSub);
-
         ImageView ivPhoto = (ImageView) rowView.findViewById(R.id.ivPhoto);
 
         tvName.setText(values.get(position).getName());
         tvCategory.setText(values.get(position).getCategory());
-        tvId.setText("#"+values.get(position).getId());
         tvDescription.setText(values.get(position).getDescription());
         tvQuantity.setText("Q:"+values.get(position).getQuantity());
 

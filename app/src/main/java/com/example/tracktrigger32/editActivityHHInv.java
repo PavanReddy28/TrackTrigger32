@@ -1,6 +1,7 @@
 package com.example.tracktrigger32;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,7 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.ImageButton;
+
+import android.widget.ImageView;
+
 import android.widget.Toast;
 
 public class editActivityHHInv extends AppCompatActivity {
@@ -23,6 +28,17 @@ public class editActivityHHInv extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_activity_hh_inv);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         String name=getIntent().getStringExtra("Name");
         String description=getIntent().getStringExtra("Description");

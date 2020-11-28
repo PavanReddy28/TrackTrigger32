@@ -23,6 +23,7 @@ public class editActivityHHInv extends AppCompatActivity {
     Button editBtnAdd,editBtnSub,editBtnSubmit,removeBtnSubmit;
     ImageButton btnWhatsapp,btnGmail;
     String gmailTo="",gmailSubject="Inventory product details",gmailMessage;
+    String whatsapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,10 @@ public class editActivityHHInv extends AppCompatActivity {
         editTvQuantity.setText(""+quantity);
         editTvId.setText(id);
 
+        whatsapp = "Inventory summary of product: \nProduct Name: "+name+
+                "\nProduct Category: "+category+"\nProduct Description: "+description+
+                "\nProduct Id: "+id+"\nProduct Quantity : "+quantity;
+
         btnWhatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +78,7 @@ public class editActivityHHInv extends AppCompatActivity {
 
                 if(installed){
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone&text=hello"));
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone&text="+whatsapp));
                     startActivity(intent);
                 }else{
                     Toast.makeText(editActivityHHInv.this, "Whatsapp not installed!!", Toast.LENGTH_SHORT).show();

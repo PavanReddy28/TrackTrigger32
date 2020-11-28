@@ -6,6 +6,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,10 +23,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,7 +38,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
@@ -49,7 +56,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     String uId;
     User user1 = new User();
+    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private Dialog dialog;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //private DocumentReference documentReference = db.document("Households/"+HouseholdActivity.hhID);
+    private CollectionReference cr1 = db.collection("Work/"+userID+"/Products");
+    private CollectionReference cr2 = db.collection("Work/"+userID+"/Work Reminders");
+
+    private WorkHomeAdapter adapter1;
+    private ReminderAdapterWork adapter2;
+    RecyclerView recyclerView1, recyclerView2;
+
+    TextView tvUserDisplay, tvhhProfileName;
 
 
     //private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Users").document("User_1");
@@ -79,12 +97,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             showSignInOptions();
         }
-
-
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        setUpRecycler1();
+        setUpRecycler2();
+
+        tvUserDisplay = findViewById(R.id.tvUserDisplay);
+        tvhhProfileName = findViewById(R.id.tvhhProfileName);
+        if(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()!=null) {
+            tvUserDisplay.setText("Welcome Back " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim() + "!");
+        }
+
+        if(HouseholdActivity.hhID!=null)
+        {
+            FirebaseFirestore.getInstance().document("Households/"+HouseholdActivity.hhID).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Household hh = documentSnapshot.toObject(Household.class);
+                            tvhhProfileName.setText(hh.getHhName()+" Household");
+                        }
+                    });
+
+        }
 
     }
+
 
 
 
@@ -187,9 +225,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * --------------------------------------------------------Design and display---------------------------------------------
+     */
 
 
+    private void setUpRecycler1() {
 
+        Query query = cr1.orderBy("quantity", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<productHHInv> options = new FirestoreRecyclerOptions.Builder<productHHInv>()
+                .setQuery(query, productHHInv.class)
+                .build();
+
+        adapter1 = new WorkHomeAdapter(options);
+        RecyclerView rv1 = findViewById(R.id.invenRec);
+        rv1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rv1.setAdapter(adapter1);
+    }
+
+    private void setUpRecycler2() {
+        Query query = cr2.orderBy("remindDate", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<ReminderWork> options1 = new FirestoreRecyclerOptions.Builder<ReminderWork>()
+                .setQuery(query, ReminderWork.class)
+                .build();
+
+        adapter2 = new ReminderAdapterWork(options1);
+        RecyclerView rv2 = findViewById(R.id.schRec);
+        rv2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
+        rv2.setAdapter(adapter2);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter1.startListening();
+        adapter2.startListening();
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter1.stopListening();
+        adapter2.stopListening();
+    }
 
     /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------
      *
@@ -271,5 +351,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void ClickHome(View view) {
+        redirectActivity(MainActivity.this,HouseholdActivity.class);
+    }
+
+    public void ClickWork(View view) {
+        redirectActivity(MainActivity.this,WorkActivity.class);
+    }
+
+    public void CLiclNotes(View view) {
+        redirectActivity(MainActivity.this,NotesActivity.class);
     }
 }

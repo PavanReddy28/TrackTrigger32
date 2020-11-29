@@ -106,6 +106,7 @@ public class HHScheduleFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         setItemsInRecyclerView();
 
+
         return v1;
     }
 

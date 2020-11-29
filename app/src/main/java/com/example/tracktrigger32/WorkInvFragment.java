@@ -190,29 +190,37 @@ public class WorkInvFragment extends Fragment {
     }
 
     private void sendNotif() {
-        Toast.makeText(getActivity(), "notif", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "notif", Toast.LENGTH_SHORT).show();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE, 57);
-        calendar.set(Calendar.SECOND, 30);
-        Intent intent = new Intent(getActivity(), WorkReminderBroadcast.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 500, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 19);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,1);
 
+        Intent intent = new Intent(getActivity(),WorkReminderBroadcast.class);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),500,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        long systemTime = System.currentTimeMillis();
+        if(systemTime <= calendar.getTimeInMillis()) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }else{
+            //hope to hell this works
+        }
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-            CharSequence name = "UserReminderChannel";
-            String description = "Channel for TrackTrigger Users";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("notifyUser", name, importance);
-            channel.setDescription(description);
+    private void createNotificationChannel(){
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notif);
+            String description = getString(R.string.sendNotif);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("sendUser", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
             NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
     }
 }

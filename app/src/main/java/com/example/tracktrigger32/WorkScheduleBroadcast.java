@@ -5,33 +5,32 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-public class HHReminderBroadcast extends BroadcastReceiver {
+public class WorkScheduleBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String notifContent = intent.getStringExtra("message");
 
         //if we want ring on notifcation then uncomment below line//
 //        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent1 = new Intent(context, HHInventoryFragment.class);
+        Intent intent1 = new Intent(context, WorkScheduleFragment.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pi= PendingIntent.getActivity(context,400,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi= PendingIntent.getActivity(context,300,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"notifyUser1").
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"notify2User").
                 setContentIntent(pi).
                 setSmallIcon(R.mipmap.ic_launcher_foreground).
-                setContentText("Kindly check Your Household inventory and update it!").
-                setContentTitle("Alert as requested!")
+                setContentText(notifContent).
+                setContentTitle("REMINDER!!")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        NotificationManagerCompat notificationManagerCompat =  NotificationManagerCompat.from(context);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context  );
 
 
-        notificationManagerCompat.notify(200,builder.build());
-
+        notificationManagerCompat.notify(300,builder.build());
     }
 }

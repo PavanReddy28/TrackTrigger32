@@ -16,6 +16,7 @@ public class addActivityHHInv extends AppCompatActivity {
     EditText addTvName,addTvDescription,addTvCategory,addTvId,addTvQuantity;
     Button addBtnAdd,addBtnSub,addBtnSubmit;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,5 +94,11 @@ public class addActivityHHInv extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void AddGal(View view) {
+    }
+
+    public void AddCam(View view) {
     }
 }

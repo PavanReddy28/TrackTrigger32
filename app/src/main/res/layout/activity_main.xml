@@ -157,7 +157,8 @@
                             android:layout_margin="20dp"
                             android:padding="10dp"
                             app:cardCornerRadius="15dp"
-                            app:cardElevation="20dp">
+                            app:cardElevation="20dp"
+                            android:onClick="ClickHouse">
 
                             <LinearLayout
                                 android:layout_width="match_parent"

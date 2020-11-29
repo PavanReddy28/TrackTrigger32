@@ -364,4 +364,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void CLiclNotes(View view) {
         redirectActivity(MainActivity.this,NotesActivity.class);
     }
+
+    public void ClickHouse(View view) {
+        redirectActivity(this, HouseholdActivity.class);
+    }
 }

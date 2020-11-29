@@ -185,4 +185,10 @@ public class editActivityHHInv extends AppCompatActivity {
         }
         return is_installed;
     }
+
+    public void AddGal(View view) {
+    }
+
+    public void AddCam(View view) {
+    }
 }

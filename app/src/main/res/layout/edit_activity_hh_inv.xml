@@ -20,14 +20,28 @@
             android:layout_marginEnd="15dp"
             android:id="@+id/backArrow"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Product"
             android:textAlignment="center"
             android:textColor="?textColorAlertDialogListItem"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:layout_marginEnd="50dp"/>
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add"
+            android:padding="8dp"
+            android:onClick="AddGal"
+            android:layout_marginEnd="8dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera"
+            android:padding="8dp"
+            android:onClick="AddCam"/>
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

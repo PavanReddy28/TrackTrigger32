@@ -1,6 +1,7 @@
 package com.example.tracktrigger32;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class productAdapterWorkInv extends ArrayAdapter<Product> {
+public class productAdapterWorkInv extends ArrayAdapter<productHHInv> {
     private final Context context;
-    private final ArrayList<Product> values;
+    private final ArrayList<productHHInv> values;
 
-    public productAdapterWorkInv(@NonNull Context context, ArrayList<Product> list) {
+    private Uri defaultUri=Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
+    public productAdapterWorkInv(@NonNull Context context, ArrayList<productHHInv> list) {
         super(context, R.layout.row_layout_work_inv,list);
         this.context = context;
         this.values = list;
@@ -43,16 +45,11 @@ public class productAdapterWorkInv extends ArrayAdapter<Product> {
         tvDescription.setText(values.get(position).getDescription());
         tvQuantity.setText("Q:"+values.get(position).getQuantity());
 
-        if(values.get(position).getName().equals("Coke")) {
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else if (values.get(position).getName().equals("Apple")){
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else if (values.get(position).getName().equals("Lays")){
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else{
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
+            ivPhoto.setImageURI(Uri.parse(values.get(position).getUri()));
 
-        }
+
+
+
 
         return rowView;
 

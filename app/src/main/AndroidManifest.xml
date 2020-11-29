@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,8 @@
         <activity android:name=".NoteEditorActivity" />
         <activity android:name=".AddSchedWorkActivity" />
         <activity android:name=".AddSchedulesActivity" />
+        <activity android:name=".CameraSelectHH"/>
+        <activity android:name=".CameraSelectWork"/>
         <activity android:name=".addActivityHHInv" />
         <activity android:name=".editActivityHHInv" />
         <activity android:name=".addActivityWorkInv" />

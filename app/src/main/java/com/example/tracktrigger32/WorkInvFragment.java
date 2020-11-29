@@ -40,6 +40,7 @@ import static android.app.Activity.RESULT_OK;
 public class WorkInvFragment extends Fragment {
 
     //private static final String ALARM_SERVICE = "alarm";
+    String defaultString="android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground";
     Uri uriDefault = Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
     ListView lvInventory;
     public ArrayList<productHHInv> list;
@@ -53,7 +54,7 @@ public class WorkInvFragment extends Fragment {
     private DocumentReference documentReference = db.document("Work/" + uID);
     private CollectionReference cr = db.collection("Work/" + uID + "/Products");
 
-    public void addItem(String Name, String Description, String Category, String Id, int Quantity, Uri ur, int pos) {
+    public void addItem(String Name, String Description, String Category, String Id, int Quantity, String ur, int pos) {
         productHHInv product = new productHHInv(Name, Id, Description, Category, Quantity,ur, pos);
         addProduct(product);
         list.add(product);
@@ -75,7 +76,7 @@ public class WorkInvFragment extends Fragment {
                 list.get(pos).setCategory(data.getStringExtra("upCategory"));
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity", 0));
-                list.get(pos).setUri(data.getParcelableExtra("uriFinal"));
+                list.get(pos).setUri(data.getParcelableExtra("uriFinal").toString());
 
                 cr.whereEqualTo("pos", pos).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -116,7 +117,7 @@ public class WorkInvFragment extends Fragment {
 
             if (resultCode == RESULT_OK) {
                 addItem(data.getStringExtra("newName"), data.getStringExtra("newDescription"),
-                        data.getStringExtra("newCategory"), data.getStringExtra("newId"), data.getIntExtra("newQuantity", 1), uriDefault,k);
+                        data.getStringExtra("newCategory"), data.getStringExtra("newId"), data.getIntExtra("newQuantity", 1), defaultString,k);
             }
         }
     }

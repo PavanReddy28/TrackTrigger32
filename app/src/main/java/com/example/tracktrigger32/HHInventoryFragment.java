@@ -80,7 +80,7 @@ public class HHInventoryFragment extends Fragment {
                                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
                                 {
                                     productHHInv product = documentSnapshot.toObject(productHHInv.class);
-                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products/"+documentSnapshot.getId()).delete();
                                     addProduct(product);
                                 }
                             }
@@ -102,7 +102,7 @@ public class HHInventoryFragment extends Fragment {
                                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
                                 {
                                     productHHInv product = documentSnapshot.toObject(productHHInv.class);
-                                    db.document("Households/"+HouseholdActivity.hhID+"/Products"+documentSnapshot.getId()).delete();
+                                    db.document("Households/"+HouseholdActivity.hhID+"/Products/"+documentSnapshot.getId()).delete();
                                 }
                             }
                         });

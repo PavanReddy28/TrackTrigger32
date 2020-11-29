@@ -209,35 +209,36 @@ public class WorkScheduleFragment extends Fragment {
                     return;
                 }
                 List<ReminderWork> reminders = value.toObjects(ReminderWork.class);
-                ReminderWork r = reminders.get(0);
-                rTitle = r.title;
-                rDate = r.remindDate;
-                rMessage = r.message;
-                String rDateStr = rDate.toString();
-                Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
-                Calendar calendar = Calendar.getInstance();
-                //calendar.set(Calendar.YEAR, rDate.getYear());
-                //calendar.set(Calendar.MONTH, rDate.getMonth());
-                calendar.set(Calendar.DATE, rDate.getDate());
-                calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
-                calendar.set(Calendar.MINUTE, rDate.getMinutes());
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,1);
+                if(!reminders.isEmpty()) {
+                    ReminderWork r = reminders.get(0);
+                    rTitle = r.title;
+                    rDate = r.remindDate;
+                    rMessage = r.message;
+                    String rDateStr = rDate.toString();
+                    //Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
+                    Calendar calendar = Calendar.getInstance();
+                    //calendar.set(Calendar.YEAR, rDate.getYear());
+                    //calendar.set(Calendar.MONTH, rDate.getMonth());
+                    calendar.set(Calendar.DATE, rDate.getDate());
+                    calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
+                    calendar.set(Calendar.MINUTE, rDate.getMinutes());
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 1);
 
-                Intent intent = new Intent(getActivity(), WorkScheduleBroadcast.class);
-                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-                intent.putExtra("message", rMessage);
-                intent.putExtra("title", rTitle);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 300, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-                long systemTime = System.currentTimeMillis();
-                if (systemTime <= calendar.getTimeInMillis()) {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                    //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
-                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                    //adapter.deleteReminder(0);
+                    Intent intent = new Intent(getActivity(), WorkScheduleBroadcast.class);
+                    intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                    intent.putExtra("message", rMessage);
+                    intent.putExtra("title", rTitle);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 300, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                    long systemTime = System.currentTimeMillis();
+                    if (systemTime <= calendar.getTimeInMillis()) {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
+                        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                        //adapter.deleteReminder(0);
+                    }
                 }
-
             }
         });
 

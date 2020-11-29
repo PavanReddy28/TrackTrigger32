@@ -194,34 +194,42 @@ public class HHScheduleFragment extends Fragment {
                   //...
                   return;
               }
-              List<Reminder> reminders = value.toObjects(Reminder.class);
-              Reminder r = reminders.get(0);
-              rTitle = r.title;
-              rDate = r.remindDate;
-              rMessage = r.message;
-              String rDateStr = rDate.toString();
-              Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
-              Calendar calendar = Calendar.getInstance();
-              //calendar.set(Calendar.YEAR, rDate.getYear());
-              //calendar.set(Calendar.MONTH, rDate.getMonth());
-              calendar.set(Calendar.DATE, rDate.getDate());
-              calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
-              calendar.set(Calendar.MINUTE, rDate.getMinutes());
-              calendar.set(Calendar.SECOND,0);
-              calendar.set(Calendar.MILLISECOND,1);
+              //Calendar cal = Calendar.getInstance();
+              //Date dt = new Date(cal.getTimeInMillis());
 
-              Intent intent = new Intent(getActivity(), HHScheduleBroadcast.class);
-              intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-              intent.putExtra("message", rMessage);
-              intent.putExtra("title", rTitle);
-              PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 600, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-              AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-              long systemTime = System.currentTimeMillis();
-              if (systemTime <= calendar.getTimeInMillis()) {
-                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                  //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
-                  //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                  //adapter.deleteReminder(0);
+              List<Reminder> reminders  = value.toObjects(Reminder.class);
+
+
+              if (!reminders.isEmpty()) {
+
+                  Reminder r = reminders.get(0);
+                  rTitle = r.title;
+                  rDate = r.remindDate;
+                  rMessage = r.message;
+                  String rDateStr = rDate.toString();
+                  Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
+                  Calendar calendar = Calendar.getInstance();
+                  //calendar.set(Calendar.YEAR, rDate.getYear());
+                  //calendar.set(Calendar.MONTH, rDate.getMonth());
+                  calendar.set(Calendar.DATE, rDate.getDate());
+                  calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
+                  calendar.set(Calendar.MINUTE, rDate.getMinutes());
+                  calendar.set(Calendar.SECOND, 0);
+                  calendar.set(Calendar.MILLISECOND, 1);
+
+                  Intent intent = new Intent(getActivity(), HHScheduleBroadcast.class);
+                  intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                  intent.putExtra("message", rMessage);
+                  intent.putExtra("title", rTitle);
+                  PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 600, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                  AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                  long systemTime = System.currentTimeMillis();
+                  if (systemTime <= calendar.getTimeInMillis()) {
+                      alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                      //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
+                      //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                      //adapter.deleteReminder(0);
+                  }
               }
 
           }

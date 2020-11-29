@@ -1,5 +1,6 @@
 package com.example.tracktrigger32;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,12 @@ public class HHHomeAdapter extends FirestoreRecyclerAdapter<productHHInv, HHHome
 
     @Override
     protected void onBindViewHolder(@NonNull CardHolder cardHolder, int i, @NonNull productHHInv productHHInv) {
-        cardHolder.ivPhoto.setImageResource(R.drawable.design);
+        if(productHHInv.getUri()!=null) {
+            cardHolder.ivPhoto.setImageURI(Uri.parse(productHHInv.getUri()));
+        }
+        else{
+            cardHolder.ivPhoto.setImageResource(R.drawable.design);
+        }
         cardHolder.tvName.setText(productHHInv.getName());
         cardHolder.tvQuantity.setText(String.valueOf(productHHInv.getQuantity()));
         cardHolder.tvCategory.setText(productHHInv.getCategory());

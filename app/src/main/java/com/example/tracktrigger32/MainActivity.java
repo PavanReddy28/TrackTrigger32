@@ -311,8 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStop() {
         super.onStop();
-        adapter1.stopListening();
-        adapter2.stopListening();
+
     }
 
     /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------

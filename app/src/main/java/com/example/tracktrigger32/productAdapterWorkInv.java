@@ -1,20 +1,15 @@
 package com.example.tracktrigger32;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.example.tracktrigger32.Product;
-import com.example.tracktrigger32.R;
 
 import java.util.ArrayList;
 
@@ -41,7 +36,7 @@ public class productAdapterWorkInv extends ArrayAdapter<Product> {
 
 
 
-        ImageView ivPhoto = (ImageView) rowView.findViewById(R.id.ivPhoto);
+        ImageView ivPhoto = (ImageView) rowView.findViewById(R.id.ivPhotoHH);
 
         tvName.setText(values.get(position).getName());
         tvCategory.setText(values.get(position).getCategory());

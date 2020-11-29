@@ -7,17 +7,28 @@ public class ReminderWork {
     //@PrimaryKey(autoGenerate = true)
     //@NonNull
     //public int id;
-
+    String title;
     String message;
     Date remindDate;
+
+
 
     public ReminderWork(){
         //empty constructor
     }
 
-    public ReminderWork(String message, Date remindDate) {
+    public ReminderWork(String title, String message, Date remindDate) {
+        this.title = title;
         this.message = message;
         this.remindDate = remindDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMessage() {

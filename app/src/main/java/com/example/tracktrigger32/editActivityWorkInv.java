@@ -1,25 +1,52 @@
 package com.example.tracktrigger32;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 public class editActivityWorkInv extends AppCompatActivity {
 
+    public static final int GETURI = 3004;
+    public static Uri [] uri = new Uri[10000];
+    Uri uDefault=Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
+
     EditText editTvQuantity,editTvName,editTvCategory,editTvDescription,editTvId;
     Button editBtnAdd,editBtnSub,editBtnSubmit,removeBtnSubmit;
+    ImageButton btnWhatsapp,btnGmail;
+    ImageView ivGalleryWork,ivPhotoWork;
+    String gmailTo="",gmailSubject="Inventory product details",gmailMessage;
+    String whatsapp;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==GETURI) {
+            if(resultCode==RESULT_OK) {
+                int po = getIntent().getIntExtra("Position",0);
+                uri[po]=data.getParcelableExtra("ImgUri");
+
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_activity_work_inv);
+
+        ivGalleryWork=findViewById(R.id.ivGalleryWork);
+        ivPhotoWork=findViewById(R.id.ivPhotoWork);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,6 +75,8 @@ public class editActivityWorkInv extends AppCompatActivity {
         editBtnSub=findViewById(R.id.addBtnSub);
         editBtnSubmit=findViewById(R.id.addBtnSubmit);
         removeBtnSubmit=findViewById(R.id.removeBtnSubmit);
+        btnWhatsapp=findViewById(R.id.btnWhatsapp);
+        btnGmail=findViewById(R.id.btnGmail);
 
         editTvName.setText(name);
         editTvCategory.setText(category);
@@ -99,7 +128,12 @@ public class editActivityWorkInv extends AppCompatActivity {
                     intent.putExtra("upId",Id);
                     intent.putExtra("upQuantity",Quantity);
                     intent.putExtra("Position",position);
+                    if(uri[position]==null){
+                        uri[position]=uDefault;
+                    }
+                    intent.putExtra("uriFinal",uri[position]);
                     setResult(RESULT_OK,intent);
+
 
                     editActivityWorkInv.this.finish();
                 }
@@ -119,9 +153,71 @@ public class editActivityWorkInv extends AppCompatActivity {
             }
         });
 
+        whatsapp = "Inventory summary of product: \nProduct Name: "+name+
+                "\nProduct Category: "+category+"\nProduct Description: "+description+
+                "\nProduct Id: "+id+"\nProduct Quantity : "+quantity;
+
+        btnWhatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean installed = isAppInstalled("com.whatsapp");
+
+                if(installed){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone&text="+whatsapp));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(editActivityWorkInv.this, "Whatsapp not installed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnGmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gmailMessage="Inventory summary of product: \nProduct Name: "+name+
+                        "\nProduct Category: "+category+"\nProduct Description: "+description+
+                        "\nProduct Id: "+id+"\nProduct Quantity : "+quantity;
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("mailto:"+gmailTo));
+                intent.putExtra(Intent.EXTRA_SUBJECT,gmailSubject);
+                intent.putExtra(Intent.EXTRA_TEXT,gmailMessage);
+                startActivity(intent);
+
+            }
+        });
+
+        ivGalleryWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(editActivityWorkInv.this,CameraSelectWork.class);
+                intent.putExtra("posit",getIntent().getIntExtra("Position",0));
+                startActivityForResult(intent, GETURI);
 
 
+            }
+        });
 
 
+    }
+
+    private boolean isAppInstalled(String s) {
+
+        PackageManager packageManager= getPackageManager();
+        boolean is_installed;
+        try{
+            packageManager.getPackageInfo(s,PackageManager.GET_ACTIVITIES);
+            is_installed=true;
+        } catch (PackageManager.NameNotFoundException e) {
+            is_installed=false;
+            e.printStackTrace();
+        }
+        return is_installed;
+    }
+
+    public void AddGal(View view) {
+    }
+
+    public void AddCam(View view) {
     }
 }

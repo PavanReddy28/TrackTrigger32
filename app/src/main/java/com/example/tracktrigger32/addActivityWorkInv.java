@@ -94,4 +94,10 @@ public class addActivityWorkInv extends AppCompatActivity {
             }
         });
     }
+
+    public void AddGal(View view) {
+    }
+
+    public void AddCam(View view) {
+    }
 }

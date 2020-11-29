@@ -20,14 +20,34 @@
             android:layout_marginEnd="15dp"
             android:id="@+id/backArrow"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Product"
             android:textAlignment="center"
             android:textColor="?textColorAlertDialogListItem"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:layout_marginEnd="50dp"/>
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"/>
+
+        <ImageView
+            android:id="@+id/ivGalleryHH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:onClick="AddGal"
+            android:padding="8dp"
+            android:src="@drawable/add" />
+
+        <ImageView
+            android:id="@+id/ivPhotoHH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="AddCam"
+            android:padding="8dp"
+            android:src="@drawable/camera" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -171,6 +191,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <TextView
@@ -199,5 +220,6 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/fui_ic_twitter_bird_white_24dp" />
     </LinearLayout>
+
 
 </LinearLayout>

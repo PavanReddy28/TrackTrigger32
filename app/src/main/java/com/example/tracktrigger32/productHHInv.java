@@ -8,21 +8,21 @@ public class productHHInv {
     private String description;
     private String category;
     private int quantity;
-    private Uri uri;
+    private String uri;
     private int pos;
 
 
     public productHHInv() { }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
-    public productHHInv(String name, String id, String description, String category, int quantity, Uri uri, int pos) {
+    public productHHInv(String name, String id, String description, String category, int quantity, String uri, int pos) {
         this.name = name;
         this.id = id;
         this.description = description;

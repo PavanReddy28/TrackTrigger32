@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 public class CameraSelectHH extends AppCompatActivity  {
 
-    public static final int IMAG_PICK_CODE = 1000;
-    public static final int PERMISSION_CODE = 1001;
+    public static final int IMAG_PICK_CODE = 999;
+    public static final int PERMISSION_CODE = 1009;
 
     ImageView ivCamera;
     Button btnCamGallery,btnCamSave;

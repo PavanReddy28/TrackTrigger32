@@ -15,6 +15,7 @@ public class addActivityHHInv extends AppCompatActivity {
 
     EditText addTvName,addTvDescription,addTvCategory,addTvId,addTvQuantity;
     Button addBtnAdd,addBtnSub,addBtnSubmit;
+    ImageView addPhotoHH;
 
 
     @Override
@@ -33,6 +34,8 @@ public class addActivityHHInv extends AppCompatActivity {
             }
         });
 
+
+        addPhotoHH=findViewById(R.id.addPhotoHH);
         addTvName=findViewById(R.id.addTvName);
         addTvCategory=findViewById(R.id.addTvCategory);
         addTvDescription=findViewById(R.id.addTvDescription);
@@ -42,6 +45,13 @@ public class addActivityHHInv extends AppCompatActivity {
         addBtnAdd=findViewById(R.id.addBtnAdd);
         addBtnSub=findViewById(R.id.addBtnSub);
         addBtnSubmit=findViewById(R.id.addBtnSubmit);
+
+        addPhotoHH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         addBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +97,7 @@ public class addActivityHHInv extends AppCompatActivity {
                     intent.putExtra("newDescription",Description);
                     intent.putExtra("newId",Id);
                     intent.putExtra("newQuantity",Quantity);
+                    Toast.makeText(addActivityHHInv.this, "Ok....", Toast.LENGTH_SHORT).show();
 
                     setResult(RESULT_OK,intent);
 

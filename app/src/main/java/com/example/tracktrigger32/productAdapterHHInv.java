@@ -44,7 +44,11 @@ public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
         tvDescription.setText(values.get(position).getDescription());
         tvQuantity.setText("Q:"+values.get(position).getQuantity());
 
-        ivPhoto.setImageURI(values.get(position).getUri());
+
+        if(values.get(position).getUri()!=null) {
+            ivPhoto.setImageURI(Uri.parse(values.get(position).getUri()));
+        }
+
 
         return rowView;
 

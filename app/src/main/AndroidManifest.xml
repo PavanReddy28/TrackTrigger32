@@ -40,6 +40,8 @@
         </activity>
         <receiver android:name=".WorkReminderBroadcast"/>
         <receiver android:name=".HHReminderBroadcast"/>
+        <receiver android:name=".WorkScheduleBroadcast"/>
+        <receiver android:name=".HHScheduleBroadcast"/>
     </application>
 
 </manifest>

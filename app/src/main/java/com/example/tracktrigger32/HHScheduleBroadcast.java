@@ -9,7 +9,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-public class WorkScheduleBroadcast extends BroadcastReceiver {
+public class HHScheduleBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -18,11 +18,11 @@ public class WorkScheduleBroadcast extends BroadcastReceiver {
 
         //if we want ring on notifcation then uncomment below line//
 //        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent1 = new Intent(context, WorkScheduleFragment.class);
+        Intent intent1 = new Intent(context, HHScheduleFragment.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pi= PendingIntent.getActivity(context,300,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi= PendingIntent.getActivity(context,600,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"notify2User").
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"notify3User").
                 setContentIntent(pi).
                 setSmallIcon(R.mipmap.ic_launcher_foreground).
                 setContentText(notifContent).

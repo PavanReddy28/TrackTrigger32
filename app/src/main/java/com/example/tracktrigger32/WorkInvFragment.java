@@ -195,8 +195,8 @@ public class WorkInvFragment extends Fragment {
     private void sendNotif() {
         //Toast.makeText(getActivity(), "notif", Toast.LENGTH_SHORT).show();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 19);
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 48);
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MILLISECOND,1);
 

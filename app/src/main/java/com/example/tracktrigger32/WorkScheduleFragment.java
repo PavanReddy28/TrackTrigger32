@@ -32,7 +32,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
@@ -68,10 +71,11 @@ public class WorkScheduleFragment extends Fragment {
     private TextView empty;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Work").document(userID).collection("Work Reminders");
-    //private DocumentReference docRef = collectionReference.document().get
+    private DocumentReference docRef;
     //private LinearLayoutManager linearLayoutManager;
     final int WORKSCHEDULE = 3;
-    String remDateStr, messageStr;
+    Date rDate;
+    String rMessage, rTitle;
 
     //String sEmail = "donotreply.tt32@gmail.com";
     //String sPassword = "trackTrigger32";
@@ -196,57 +200,46 @@ public class WorkScheduleFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        //Toast.makeText(getActivity(), "notif", Toast.LENGTH_SHORT).show();
-        //adapter.findRelativeAdapterPositionIn()
+        collectionReference.orderBy("remindDate", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    // Handle error
+                    //...
+                    return;
+                }
+                List<ReminderWork> reminders = value.toObjects(ReminderWork.class);
+                ReminderWork r = reminders.get(0);
+                rTitle = r.title;
+                rDate = r.remindDate;
+                rMessage = r.message;
+                String rDateStr = rDate.toString();
+                Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
+                Calendar calendar = Calendar.getInstance();
+                //calendar.set(Calendar.YEAR, rDate.getYear());
+                //calendar.set(Calendar.MONTH, rDate.getMonth());
+                calendar.set(Calendar.DATE, rDate.getDate());
+                calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
+                calendar.set(Calendar.MINUTE, rDate.getMinutes());
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,1);
 
-        //options.getSnapshots().get(0);
+                Intent intent = new Intent(getActivity(), WorkScheduleBroadcast.class);
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                intent.putExtra("message", rMessage);
+                intent.putExtra("title", rTitle);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 300, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                long systemTime = System.currentTimeMillis();
+                if (systemTime <= calendar.getTimeInMillis()) {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
+                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                    //adapter.deleteReminder(0);
+                }
 
-        collectionReference.orderBy("remindDate", Query.Direction.ASCENDING).limit(1).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            if(documentSnapshot.exists()) {
-                                Map<String, Object> map = documentSnapshot.getData();
-                                remDateStr = map.get("remindDate").toString();// documentSnapshot.getTimestamp("remindDate").toString();
-                                Toast.makeText(getActivity(), "Data Exists.", Toast.LENGTH_SHORT).show();
-
-                                messageStr = map.get("message").toString(); //documentSnapshot.getString("message");
-                            }
-
-                        }
-                    }
-                });
-
-
-          //ReminderWork remDate = adapter.getSnapshots().get(0);
-          //String remDateStr = remDate.getRemindDate().toString();
-        Toast.makeText(getActivity(), remDateStr, Toast.LENGTH_SHORT).show();
-          //Date rDate = new Date(remDateStr);
-
-
-            /*Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, rDate.getYear());
-            calendar.set(Calendar.MONTH, rDate.getMonth());
-            calendar.set(Calendar.DATE, rDate.getDate());
-            calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
-            calendar.set(Calendar.MINUTE, rDate.getMinutes());
-            calendar.set(Calendar.SECOND,0);
-            calendar.set(Calendar.MILLISECOND,1);
-
-            Intent intent = new Intent(getActivity(), WorkScheduleBroadcast.class);
-            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-            intent.putExtra("message", messageStr);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 300, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            long systemTime = System.currentTimeMillis();
-            if (systemTime <= calendar.getTimeInMillis()) {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                adapter.deleteReminder(0);
-            }*/
-
-
+            }
+        });
 
     }
 
@@ -261,6 +254,7 @@ public class WorkScheduleFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

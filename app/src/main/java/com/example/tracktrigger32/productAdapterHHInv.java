@@ -1,12 +1,11 @@
 package com.example.tracktrigger32;
 
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
     private final Context context;
     private final ArrayList<productHHInv> values;
+    private Uri defaultUri=Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
 
     public productAdapterHHInv(@NonNull Context context,ArrayList<productHHInv> list) {
         super(context, R.layout.row_layout_hh_inv,list);
@@ -37,23 +37,14 @@ public class productAdapterHHInv extends ArrayAdapter<productHHInv> {
         TextView tvCategory = (TextView) rowView.findViewById(R.id.tvCategory);
 
 
-        ImageView ivPhoto = (ImageView) rowView.findViewById(R.id.ivPhoto);
+        ImageView ivPhoto = (ImageView) rowView.findViewById(R.id.ivPhotoHH);
 
         tvName.setText(values.get(position).getName());
         tvCategory.setText(values.get(position).getCategory());
         tvDescription.setText(values.get(position).getDescription());
         tvQuantity.setText("Q:"+values.get(position).getQuantity());
 
-        if(values.get(position).getName().equals("Coke")) {
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else if (values.get(position).getName().equals("Apple")){
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else if (values.get(position).getName().equals("Lays")){
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-        }else{
-            ivPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
-
-        }
+        ivPhoto.setImageURI(values.get(position).getUri());
 
         return rowView;
 

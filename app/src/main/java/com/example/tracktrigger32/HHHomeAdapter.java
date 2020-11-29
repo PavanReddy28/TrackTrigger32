@@ -42,7 +42,7 @@ public class HHHomeAdapter extends FirestoreRecyclerAdapter<productHHInv, HHHome
         public CardHolder(@NonNull View itemView) {
             super(itemView);
 
-            ivPhoto = itemView.findViewById(R.id.ivPhoto);
+            ivPhoto = itemView.findViewById(R.id.ivPhotoHH);
 
             tvName = itemView.findViewById(R.id.tvName);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);

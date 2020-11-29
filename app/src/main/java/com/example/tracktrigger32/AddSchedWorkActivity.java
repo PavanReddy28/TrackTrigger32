@@ -36,6 +36,7 @@ public class AddSchedWorkActivity extends AppCompatActivity {
         final TextView textView = findViewById(R.id.date);
         select = findViewById(R.id.selectDate);
         add = findViewById(R.id.addButton);
+        final EditText title = findViewById(R.id.etTitle);
         final EditText message = findViewById(R.id.message);
         final Calendar newCalender = Calendar.getInstance();
 
@@ -88,7 +89,7 @@ public class AddSchedWorkActivity extends AppCompatActivity {
                 String userID = fAuth.getCurrentUser().getUid();
                 CollectionReference collectionReference = FirebaseFirestore.getInstance()
                         .collection("Work").document(userID).collection("Work Reminders");
-                collectionReference.add(new ReminderWork(message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
+                collectionReference.add(new ReminderWork(title.getText().toString().trim(), message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
 
 
 

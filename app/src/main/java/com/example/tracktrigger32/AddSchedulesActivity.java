@@ -29,6 +29,7 @@ public class AddSchedulesActivity extends AppCompatActivity {
 
     //TextView textView;
     Button select,add;
+
     //EditText message;
     //Calendar newCalender;
 
@@ -40,6 +41,7 @@ public class AddSchedulesActivity extends AppCompatActivity {
         final TextView textView = findViewById(R.id.date);
         select = findViewById(R.id.selectDate);
         add = findViewById(R.id.addButton);
+        final EditText etTitle = findViewById(R.id.etTitle);
         final EditText message = findViewById(R.id.message);
         final Calendar newCalender = Calendar.getInstance();
 
@@ -91,7 +93,7 @@ public class AddSchedulesActivity extends AppCompatActivity {
                 String userID = fAuth.getCurrentUser().getUid();
                 CollectionReference collectionReference = FirebaseFirestore.getInstance()
                         .collection("Households").document(HouseholdActivity.hhID).collection("Household Reminders");
-                collectionReference.add(new Reminder(message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
+                collectionReference.add(new Reminder(etTitle.getText().toString().trim(), message.getText().toString().trim(), new Date(textView.getText().toString().trim())));
 
                 /*Intent intentAdd = new Intent();
                 intentAdd.putExtra("msg", message.getText().toString().trim());

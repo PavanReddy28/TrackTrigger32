@@ -94,9 +94,9 @@
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/profilepic"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginStart="45dp"/>
+                                    android:src="@drawable/profilepic"
+                                    android:layout_marginStart="40dp"/>
 
                             </LinearLayout>
 

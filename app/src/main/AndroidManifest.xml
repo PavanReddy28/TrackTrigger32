@@ -37,6 +37,7 @@
         </activity>
         <receiver android:name=".WorkReminderBroadcast"/>
         <receiver android:name=".HHReminderBroadcast"/>
+        <receiver android:name=".WorkScheduleBroadcast"/>
     </application>
 
 </manifest>

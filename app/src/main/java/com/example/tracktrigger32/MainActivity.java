@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()!=null) {
                 tvUserDisplay.setText("Welcome Back " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim() + "!");
             }
+            adapter1.startListening();
+            adapter2.startListening();
         }
         firebaseFirestore = FirebaseFirestore.getInstance();
         /*if(firebaseAuth.getCurrentUser().getUid()!= "") {
@@ -225,6 +227,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             });
 
                 }
+                adapter1.startListening();
+                adapter2.startListening();
 
 
                 /*uId = user.getUid();
@@ -300,8 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-        adapter1.startListening();
-        adapter2.startListening();
+
     }
 
 

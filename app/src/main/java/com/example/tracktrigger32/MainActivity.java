@@ -188,6 +188,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 // ...
                 Toast.makeText(this, "Signed in as "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                userID = firebaseAuth.getCurrentUser().getUid();
+                cr1 = db.collection("Work/" + userID + "/Products");
+                cr2 = db.collection("Work/" + userID + "/Work Reminders");
+                setUpRecycler1();
+                setUpRecycler2();
+
+                tvUserDisplay = findViewById(R.id.tvUserDisplay);
+                tvhhProfileName = findViewById(R.id.tvhhProfileName);
+                if(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()!=null) {
+                    tvUserDisplay.setText("Welcome Back " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim() + "!");
+                }
+
+                if(HouseholdActivity.hhID!=null)
+                {
+                    FirebaseFirestore.getInstance().document("Households/"+HouseholdActivity.hhID).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    Household hh = documentSnapshot.toObject(Household.class);
+                                    tvhhProfileName.setText(hh.getHhName()+" Household");
+                                }
+                            });
+
+                }
 
 
                 /*uId = user.getUid();

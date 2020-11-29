@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".CameraSelectWork">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:maxHeight="100dp"
+        android:text="Select a picture"
+        android:textColor="#4CAF50"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/ivCameraWork"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_weight="1"
+        android:background="#E6DDDD"
+        android:backgroundTint="#CDBABA"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
+
+    <Button
+        android:id="@+id/btnCamGalleryWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:text="Select from gallery" />
+
+    <Button
+        android:id="@+id/btnCamSaveWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:text="Save My Picture" />
+
+</LinearLayout>

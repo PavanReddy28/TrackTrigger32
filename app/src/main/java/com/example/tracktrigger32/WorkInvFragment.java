@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -39,9 +40,9 @@ import static android.app.Activity.RESULT_OK;
 public class WorkInvFragment extends Fragment {
 
     //private static final String ALARM_SERVICE = "alarm";
+    Uri uriDefault = Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
     ListView lvInventory;
     public ArrayList<productHHInv> list;
-    Button btnAdd, btnSub;
     FloatingActionButton ibAdd;
     final int EDITACTIVITY = 9;
     final int ADDACTIVITY = 7;
@@ -52,8 +53,8 @@ public class WorkInvFragment extends Fragment {
     private DocumentReference documentReference = db.document("Work/" + uID);
     private CollectionReference cr = db.collection("Work/" + uID + "/Products");
 
-    public void addItem(String Name, String Description, String Category, String Id, int Quantity, int pos) {
-        productHHInv product = new productHHInv(Name, Id, Description, Category, Quantity, pos);
+    public void addItem(String Name, String Description, String Category, String Id, int Quantity, Uri ur, int pos) {
+        productHHInv product = new productHHInv(Name, Id, Description, Category, Quantity,ur, pos);
         addProduct(product);
         list.add(product);
 
@@ -74,6 +75,7 @@ public class WorkInvFragment extends Fragment {
                 list.get(pos).setCategory(data.getStringExtra("upCategory"));
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity", 0));
+                list.get(pos).setUri(data.getParcelableExtra("uriFinal"));
 
                 cr.whereEqualTo("pos", pos).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -114,7 +116,7 @@ public class WorkInvFragment extends Fragment {
 
             if (resultCode == RESULT_OK) {
                 addItem(data.getStringExtra("newName"), data.getStringExtra("newDescription"),
-                        data.getStringExtra("newCategory"), data.getStringExtra("newId"), data.getIntExtra("newQuantity", 1), k);
+                        data.getStringExtra("newCategory"), data.getStringExtra("newId"), data.getIntExtra("newQuantity", 1), uriDefault,k);
             }
         }
     }
@@ -158,6 +160,7 @@ public class WorkInvFragment extends Fragment {
                 intent.putExtra("Quantity", list.get(position).getQuantity());
                 intent.putExtra("Id", list.get(position).getId());
                 intent.putExtra("Position", position);
+                intent.putExtra("Uri",list.get(position).getUri());
                 startActivityForResult(intent, EDITACTIVITY);
             }
         });

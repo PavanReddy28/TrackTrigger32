@@ -29,19 +29,25 @@
             android:textSize="22sp"
             android:layout_marginStart="80dp"
             android:layout_marginEnd="80dp"/>
+
         <ImageView
+            android:id="@+id/ivGalleryHH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/add"
-            android:padding="8dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
             android:onClick="AddGal"
-            android:layout_marginEnd="8dp"/>
+            android:padding="8dp"
+            android:src="@drawable/add" />
+
         <ImageView
+            android:id="@+id/ivPhotoHH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/camera"
+            android:clickable="true"
+            android:onClick="AddCam"
             android:padding="8dp"
-            android:onClick="AddCam"/>
+            android:src="@drawable/camera" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

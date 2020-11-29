@@ -1,5 +1,6 @@
 package com.example.tracktrigger32;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,16 +17,36 @@ import android.widget.Toast;
 
 public class editActivityWorkInv extends AppCompatActivity {
 
+    public static final int GETURI = 3004;
+    public static Uri [] uri = new Uri[10000];
+    Uri uDefault=Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
+
     EditText editTvQuantity,editTvName,editTvCategory,editTvDescription,editTvId;
     Button editBtnAdd,editBtnSub,editBtnSubmit,removeBtnSubmit;
     ImageButton btnWhatsapp,btnGmail;
+    ImageView ivGalleryWork,ivPhotoWork;
     String gmailTo="",gmailSubject="Inventory product details",gmailMessage;
     String whatsapp;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==GETURI) {
+            if(resultCode==RESULT_OK) {
+                int po = getIntent().getIntExtra("Position",0);
+                uri[po]=data.getParcelableExtra("ImgUri");
+
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_activity_work_inv);
+
+        ivGalleryWork=findViewById(R.id.ivGalleryWork);
+        ivPhotoWork=findViewById(R.id.ivPhotoWork);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,7 +128,12 @@ public class editActivityWorkInv extends AppCompatActivity {
                     intent.putExtra("upId",Id);
                     intent.putExtra("upQuantity",Quantity);
                     intent.putExtra("Position",position);
+                    if(uri[position]==null){
+                        uri[position]=uDefault;
+                    }
+                    intent.putExtra("uriFinal",uri[position]);
                     setResult(RESULT_OK,intent);
+
 
                     editActivityWorkInv.this.finish();
                 }
@@ -157,6 +183,17 @@ public class editActivityWorkInv extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_SUBJECT,gmailSubject);
                 intent.putExtra(Intent.EXTRA_TEXT,gmailMessage);
                 startActivity(intent);
+
+            }
+        });
+
+        ivGalleryWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(editActivityWorkInv.this,CameraSelectWork.class);
+                intent.putExtra("posit",getIntent().getIntExtra("Position",0));
+                startActivityForResult(intent, GETURI);
+
 
             }
         });

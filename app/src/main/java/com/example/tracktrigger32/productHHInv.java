@@ -1,21 +1,34 @@
 package com.example.tracktrigger32;
 
+import android.net.Uri;
+
 public class productHHInv {
     private String name;
     private String id;
     private String description;
     private String category;
     private int quantity;
+    private Uri uri;
     private int pos;
 
-    public productHHInv(){}
 
-    public productHHInv(String name, String id, String description, String category, int quantity, int pos) {
+    public productHHInv() { }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
+
+    public productHHInv(String name, String id, String description, String category, int quantity, Uri uri, int pos) {
         this.name = name;
         this.id = id;
         this.description = description;
         this.category = category;
         this.quantity = quantity;
+        this.uri=uri;
         this.pos = pos;
     }
 

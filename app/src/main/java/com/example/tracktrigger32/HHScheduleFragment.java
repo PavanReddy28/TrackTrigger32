@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,8 +36,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +66,8 @@ public class HHScheduleFragment extends Fragment {
     private CollectionReference collectionReference = db.collection("Households").document(HouseholdActivity.hhID).collection("Household Reminders");
     //private LinearLayoutManager linearLayoutManager;
     final int HHSCHEDULE = 3;
+    Date rDate;
+    String rMessage, rTitle;
     //public Reminder reminders = new Reminder();
 
     /*@Override
@@ -105,6 +114,8 @@ public class HHScheduleFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         setItemsInRecyclerView();
+        createNotificationChannel();
+
 
         return v1;
     }
@@ -174,6 +185,48 @@ public class HHScheduleFragment extends Fragment {
               adapter.deleteReminder(viewHolder.getAbsoluteAdapterPosition());
           }
       }).attachToRecyclerView(recyclerView);
+
+      collectionReference.orderBy("remindDate", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+          @Override
+          public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+              if (error != null) {
+                  // Handle error
+                  //...
+                  return;
+              }
+              List<Reminder> reminders = value.toObjects(Reminder.class);
+              Reminder r = reminders.get(0);
+              rTitle = r.title;
+              rDate = r.remindDate;
+              rMessage = r.message;
+              String rDateStr = rDate.toString();
+              Toast.makeText(getActivity(), rDateStr, Toast.LENGTH_SHORT).show();
+              Calendar calendar = Calendar.getInstance();
+              //calendar.set(Calendar.YEAR, rDate.getYear());
+              //calendar.set(Calendar.MONTH, rDate.getMonth());
+              calendar.set(Calendar.DATE, rDate.getDate());
+              calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
+              calendar.set(Calendar.MINUTE, rDate.getMinutes());
+              calendar.set(Calendar.SECOND,0);
+              calendar.set(Calendar.MILLISECOND,1);
+
+              Intent intent = new Intent(getActivity(), HHScheduleBroadcast.class);
+              intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+              intent.putExtra("message", rMessage);
+              intent.putExtra("title", rTitle);
+              PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 600, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+              AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+              long systemTime = System.currentTimeMillis();
+              if (systemTime <= calendar.getTimeInMillis()) {
+                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                  //Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
+                  //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                  //adapter.deleteReminder(0);
+              }
+
+          }
+      });
+
   }
 
     @Override
@@ -188,4 +241,19 @@ public class HHScheduleFragment extends Fragment {
         adapter.stopListening();
     }
 
+
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "HHSchReminderChannel";
+            String description = "Channel for HH TrackTrigger Users";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel2 = new NotificationChannel("notify3User", name, importance);
+            channel2.setDescription(description);
+
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel2);
+        }
+
+    }
 }

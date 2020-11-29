@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     String uId;
     User user1 = new User();
-    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    String userID;
     private Dialog dialog;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //private DocumentReference documentReference = db.document("Households/"+HouseholdActivity.hhID);
-    private CollectionReference cr1 = db.collection("Work/"+userID+"/Products");
-    private CollectionReference cr2 = db.collection("Work/"+userID+"/Work Reminders");
+    private CollectionReference cr1;// = db.collection("Work/"+userID+"/Products");
+    private CollectionReference cr2;// = db.collection("Work/"+userID+"/Work Reminders");
 
     private WorkHomeAdapter adapter1;
     private ReminderAdapterWork adapter2;
@@ -98,8 +98,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showSignInOptions();
         }
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-        setUpRecycler1();
+        /*if(firebaseAuth.getCurrentUser().getUid()!= "") {
+            userID = firebaseAuth.getCurrentUser().getUid();
+            cr1 = db.collection("Work/" + userID + "/Products");
+            cr2 = db.collection("Work/" + userID + "/Work Reminders");
+        }*/
+       /* setUpRecycler1();
         setUpRecycler2();
 
         tvUserDisplay = findViewById(R.id.tvUserDisplay);
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     });
 
-        }
+        }*/
 
     }
 
@@ -255,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv2.setAdapter(adapter2);
 
     }
-
+/*
     @Override
     public void onStart() {
         super.onStart();
@@ -269,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStop();
         adapter1.stopListening();
         adapter2.stopListening();
-    }
+    }*/
 
     /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------
      *

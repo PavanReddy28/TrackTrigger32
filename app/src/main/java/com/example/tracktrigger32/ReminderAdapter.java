@@ -19,9 +19,11 @@ public class ReminderAdapter extends FirestoreRecyclerAdapter<Reminder, Reminder
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView message,time;
+        TextView title;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.textView);
             message = itemView.findViewById(R.id.textView1);
             time = itemView.findViewById(R.id.textView2);
         }
@@ -53,7 +55,8 @@ public class ReminderAdapter extends FirestoreRecyclerAdapter<Reminder, Reminder
     protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull Reminder model) {
 
         //Reminder reminders = allReminders.get(i); // myViewHolder.itemView.settag(allreminders.get(i))
-        if(!model.getMessage().equals(""))
+        myViewHolder.title.setText(model.getTitle());
+    if(!model.getMessage().equals(""))
             myViewHolder.message.setText(model.getMessage());
         else
             myViewHolder.message.setHint("No Message");

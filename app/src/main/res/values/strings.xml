@@ -7,6 +7,8 @@
     <string name="schedule">Schedule</string>
     <string name="inventory">Inventory</string>
     <string name="household">Household</string>
+    <string name="notif">Work Reminder</string>
+    <string name="sendNotif">Send Notification</string>
     <string name="work">Work</string>
     <string name="notes">Notes</string>
     <string name="settings">Settings</string>

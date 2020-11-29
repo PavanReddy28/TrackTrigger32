@@ -97,6 +97,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             showSignInOptions();
         }
+        else{
+            userID = firebaseAuth.getCurrentUser().getUid();
+            cr1 = db.collection("Work/" + userID + "/Products");
+            cr2 = db.collection("Work/" + userID + "/Work Reminders");
+            setUpRecycler1();
+            setUpRecycler2();
+
+            tvUserDisplay = findViewById(R.id.tvUserDisplay);
+            tvhhProfileName = findViewById(R.id.tvhhProfileName);
+            if(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()!=null) {
+                tvUserDisplay.setText("Welcome Back " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString().trim() + "!");
+            }
+        }
         firebaseFirestore = FirebaseFirestore.getInstance();
         /*if(firebaseAuth.getCurrentUser().getUid()!= "") {
             userID = firebaseAuth.getCurrentUser().getUid();
@@ -283,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv2.setAdapter(adapter2);
 
     }
-/*
+
     @Override
     public void onStart() {
         super.onStart();
@@ -297,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStop();
         adapter1.stopListening();
         adapter2.stopListening();
-    }*/
+    }
 
     /**----------------------------------------------------------NavigationDrawer--------------------------------------------------------------
      *

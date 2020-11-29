@@ -75,7 +75,7 @@ public class WorkScheduleFragment extends Fragment {
     //private LinearLayoutManager linearLayoutManager;
     final int WORKSCHEDULE = 3;
     Date rDate;
-    String rMessage;
+    String rMessage, rTitle;
 
     //String sEmail = "donotreply.tt32@gmail.com";
     //String sPassword = "trackTrigger32";
@@ -210,6 +210,7 @@ public class WorkScheduleFragment extends Fragment {
                 }
                 List<ReminderWork> reminders = value.toObjects(ReminderWork.class);
                 ReminderWork r = reminders.get(0);
+                rTitle = r.title;
                 rDate = r.remindDate;
                 rMessage = r.message;
                 String rDateStr = rDate.toString();
@@ -217,7 +218,7 @@ public class WorkScheduleFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 //calendar.set(Calendar.YEAR, rDate.getYear());
                 //calendar.set(Calendar.MONTH, rDate.getMonth());
-                //calendar.set(Calendar.DATE, rDate.getDate());
+                calendar.set(Calendar.DATE, rDate.getDate());
                 calendar.set(Calendar.HOUR_OF_DAY, rDate.getHours());
                 calendar.set(Calendar.MINUTE, rDate.getMinutes());
                 calendar.set(Calendar.SECOND,0);
@@ -226,6 +227,7 @@ public class WorkScheduleFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), WorkScheduleBroadcast.class);
                 intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra("message", rMessage);
+                intent.putExtra("title", rTitle);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 300, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                 long systemTime = System.currentTimeMillis();

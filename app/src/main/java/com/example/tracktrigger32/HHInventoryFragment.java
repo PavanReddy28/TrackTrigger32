@@ -38,6 +38,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class HHInventoryFragment extends Fragment {
 
+    String defaulltString="android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground";
     Uri uriDefault = Uri.parse("android.resource://com.example.tracktrigger32/mipmap/ic_launcher_foreground");
     ListView lvInventory;
     ArrayList<productHHInv> list;
@@ -50,7 +51,7 @@ public class HHInventoryFragment extends Fragment {
     private DocumentReference documentReference = db.document("Households/"+HouseholdActivity.hhID);
     CollectionReference cr = db.collection("Households/"+HouseholdActivity.hhID+"/Products");
 
-    public void addItem(String Name, String Description, String Category, String Id, int Quantity,Uri ur,int pos){
+    public void addItem(String Name, String Description, String Category, String Id, int Quantity,String ur,int pos){
         productHHInv product = new productHHInv(Name,Id,Description,Category,Quantity, ur,pos);
         addProduct(product);
         list.add(product);
@@ -72,7 +73,7 @@ public class HHInventoryFragment extends Fragment {
                 list.get(pos).setCategory(data.getStringExtra("upCategory"));
                 list.get(pos).setId(data.getStringExtra("upId"));
                 list.get(pos).setQuantity(data.getIntExtra("upQuantity",0));
-                list.get(pos).setUri(data.getParcelableExtra("uriFinal"));
+                list.get(pos).setUri(data.getParcelableExtra("uriFinal").toString());
 
                 cr.whereEqualTo("pos", pos).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -118,7 +119,7 @@ public class HHInventoryFragment extends Fragment {
 
             if (resultCode==RESULT_OK){
                 addItem(data.getStringExtra("newName"),data.getStringExtra("newDescription"),
-                        data.getStringExtra("newCategory"),data.getStringExtra("newId"),data.getIntExtra("newQuantity",1),uriDefault, k);
+                        data.getStringExtra("newCategory"),data.getStringExtra("newId"),data.getIntExtra("newQuantity",1),defaulltString, k);
             }
         }
     }

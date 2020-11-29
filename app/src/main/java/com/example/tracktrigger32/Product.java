@@ -1,11 +1,14 @@
 package com.example.tracktrigger32;
 
+import android.net.Uri;
+
 public class Product {
     private String name;
     private String id;
     private String description;
     private String category;
     private int quantity;
+    private Uri uri;
 
     public Product(String name, String id, String description, String category, int quantity) {
         this.name = name;

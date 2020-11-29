@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -14,15 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TrackTrigger32">
-        <activity android:name=".CameraSelectWork"></activity>
-        <activity android:name=".CameraSelectHH" />
-        <activity android:name=".FirestoreUpdate" />
+        <activity android:name=".FirestoreUpdate"></activity>
         <activity android:name=".CreateHH" />
         <activity android:name=".JoinHH" />
         <activity android:name=".EditProfile" />
         <activity android:name=".NoteEditorActivity" />
         <activity android:name=".AddSchedWorkActivity" />
         <activity android:name=".AddSchedulesActivity" />
+        <activity android:name=".CameraSelectHH"/>
+        <activity android:name=".CameraSelectWork"/>
         <activity android:name=".addActivityHHInv" />
         <activity android:name=".editActivityHHInv" />
         <activity android:name=".addActivityWorkInv" />

@@ -4,6 +4,13 @@ Our Track and Trigger Application can be used by homemakers as well as working
 professionals to make their lives easier. This App was developed on Android Studio
 requires a minimum SDK version - 23 and target SDK version - 30.
 
+<p align="center">
+  <br>
+  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Screenshot_20201130-005354_TrackTrigger.jpg" height="500">
+  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Screenshot_20201130-005152_TrackTrigger.jpg" height="500">
+  <br><br>
+</p>
+
 ## Features
 
 This app provides the following functionalities:

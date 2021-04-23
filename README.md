@@ -6,8 +6,8 @@ requires a minimum SDK version - 23 and target SDK version - 30.
 
 <p align="center">
   <br>
-  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Screenshot_20201130-005354_TrackTrigger.jpg" height="500">
-  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Screenshot_20201130-005152_TrackTrigger.jpg" height="500">
+  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Home.jpg" height="500">
+  <img src="https://github.com/PavanReddy28/TrackTrigger32/blob/master/Login.jpg" height="500">
   <br><br>
 </p>
 

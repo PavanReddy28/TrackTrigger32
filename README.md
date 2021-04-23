@@ -23,4 +23,4 @@ This app provides the following functionalities:
 7. Reminder Notification( Based on set time)
 8. Sharing Inventory Information via Whatsapp and Email
 
-Check out the complete Project Report [here](https://github.com/PavanReddy28/TrackTrigger32/blob/master/TrackTrigger.pdf).
+Check out the complete Project Report [here](https://github.com/PavanReddy28/TrackTrigger32/blob/master/Report.pdf).
